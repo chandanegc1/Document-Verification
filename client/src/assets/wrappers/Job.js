@@ -13,6 +13,19 @@ const Wrapper = styled.article`
     grid-template-columns: auto 1fr;
     align-items: center;
   }
+  .pending {
+    background: #fef3c7;
+    color: #f59e0b;
+  }
+
+  .approved {
+    background: #e0e8f9;
+    color: #647acb;
+  }
+  .rejected {
+    background: #ffeeee;
+    color: #d66a6a;
+  }
 
   .content-center {
     display: flex;

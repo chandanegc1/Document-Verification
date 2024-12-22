@@ -5,6 +5,7 @@ import { useAllJobsContext } from '../pages/Alljobs';
 const JobsContainer = () => {
   const { data } = useAllJobsContext();
   const { jobs } = data;
+  console.log(jobs);
   if (jobs.length === 0) {
     return (
       <Wrapper>
