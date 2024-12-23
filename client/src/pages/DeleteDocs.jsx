@@ -6,11 +6,11 @@ import { toast } from 'react-toastify';
 export async function action({ params }) {
   try {
     await customFetch.delete(`/jobs/${params.id}`);
-    toast.success('Job deleted successfully');
+    toast.success('Document deleted successfully');
   } catch (error) {
     toast.error(error.response.data.msg);
   }
-  return redirect('/dashboard/all-jobs');
+  return redirect('/dashboard/all-docs');
 }
 
 const DeleteJob = () => {

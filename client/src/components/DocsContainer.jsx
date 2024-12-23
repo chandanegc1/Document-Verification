@@ -1,11 +1,10 @@
-import Job from './Job';
+import Job from './Document';
 import Wrapper from '../assets/wrappers/JobsContainer';
-import { useAllJobsContext } from '../pages/Alljobs';
+import { useAllJobsContext } from '../pages/AllDocs';
 
 const JobsContainer = () => {
   const { data } = useAllJobsContext();
   const { jobs } = data;
-  console.log(jobs);
   if (jobs.length === 0) {
     return (
       <Wrapper>

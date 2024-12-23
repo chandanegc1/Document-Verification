@@ -16,12 +16,12 @@ import {
 import { action as RegisterAction } from "./pages/Register";
 import { action as LoginAction} from "./pages/Login";
 import { loader as DashboardLoader } from "./pages/DashboardLayout";
-import { action as Addjob } from "./pages/AddJob";
-import {loader as allJobsloader} from "./pages/AllJobs";
+import { action as Addjob } from "./pages/AddDocs";
+import {loader as allJobsloader} from "./pages/AllDocs";
 
 import { loader as editJobLoader } from './pages/EditJob';
 import { action as editJobAction } from './pages/EditJob';
-import { action as deleteJobAction } from './pages/DeleteJob';
+import { action as deleteJobAction } from './pages/DeleteDocs';
 
 import { loader as adminLoader } from './pages/Admin';
 import { action as profileAction } from './pages/Profile';
@@ -64,7 +64,7 @@ const router = createBrowserRouter([
             loader: statsLoader
           },
           {
-            path: 'all-jobs',
+            path: 'all-docs',
             element: <AllJobs />,
             loader:allJobsloader,
           },
