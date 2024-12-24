@@ -9,9 +9,9 @@ import cookieParser from 'cookie-parser';
 import userRouter from "./Router/userRouter.js"
 import {v2 as cloudinary} from 'cloudinary';
 
-import {dirname} from "path";
-import { fileURLToPath } from 'url';
-import path from 'path';
+// import {dirname} from "path";
+// import { fileURLToPath } from 'url';
+// import path from 'path';
 
 //midleware
 app.use(cookieParser());
