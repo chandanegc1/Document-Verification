@@ -25,8 +25,9 @@ app.use("/api/v1/user", userRouter)
 app.use(errorHandlerMiddleware);
 
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.resolve(__dirname, './dist')));
+// const __dirname = dirname(fileURLToPath(import.meta.url));
+// app.use(express.static(path.resolve(__dirname, './dist')));
+app.use(express.static("dist")); 
 
 cloudinary.config({
   cloud_name: 'dwv1qch0y',
