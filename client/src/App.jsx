@@ -59,8 +59,8 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: isAdmin ? <Admin /> : <AddDocs />,
-            loader: isAdmin ? adminLoader : null,
+            element: isAdmin ? <AllDocuments /> : <AddDocs />,
+            loader: isAdmin ?allUserDocLoader : null,
             action: !isAdmin ? AddDocsAction : null,
           },
           { path: "stats", element: <Stats />, loader: statsLoader },
