@@ -12,7 +12,8 @@ export const action = async ({ request }) => {
   try {
     const res = await customFetch.post('/auth/login', data);
     toast.success(res.data.msg);
-    console.log("chandan")
+    console.log(res.data);
+    localStorage.setItem('role', res.data.role);
     return redirect("/dashboard");
   } catch (error) {
     toast.error(error.response.data.msg);

@@ -23,7 +23,7 @@ export const action = async ({ request }) => {
   return null;
 };
 
-const Profile = () => {
+const AddDocs = () => {
   const { user } = useOutletContext();
   const { name, lastName, email, location } = user;
   const navigation = useNavigation();
@@ -61,4 +61,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AddDocs;

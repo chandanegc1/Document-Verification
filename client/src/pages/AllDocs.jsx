@@ -26,7 +26,7 @@ export const loader = async ({ request }) => {
   }
 };
 
-const AllJobs = () => {
+const AllDocs = () => {
   const { data, searchValues } = useLoaderData();
 
   return (
@@ -36,6 +36,6 @@ const AllJobs = () => {
     </AllJobsContext.Provider>
   );
 };
-export default AllJobs;
+export default AllDocs;
 
 export const useAllJobsContext = () => useContext(AllJobsContext);

@@ -34,7 +34,7 @@ export const action = async ({ request, params }) => {
 const EditJob = () => {
 
   const params = useParams();
-  console.log(params);
+  // console.log(params);
 
   const { job } = useLoaderData();
 

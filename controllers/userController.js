@@ -10,9 +10,17 @@ export const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: userWithoutPassword });
 };
 
+export const getAlltUsers = async (req, res) => {
+  const user = await User.find();
+  console.log(user)
+  // const userWithoutPassword = user.toJSON();
+  res.status(StatusCodes.OK).json({ user: user });
+};
+
+
 export const getApplicationStats = async (req, res) => {
   const users = await User.countDocuments();
-  console.log(users);
+  // console.log(users);
   const jobs = await Job.countDocuments();
   res.status(StatusCodes.OK).json({ users, jobs });
 };

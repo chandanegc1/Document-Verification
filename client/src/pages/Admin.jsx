@@ -1,6 +1,6 @@
 import React from "react";
 import { FaSuitcaseRolling, FaCalendarCheck } from "react-icons/fa";
-import { useLoaderData, redirect } from "react-router-dom";
+import { useLoaderData, redirect, Link } from "react-router-dom";
 import customFetch from "../utils/customFetch";
 import Wrapper from "../assets/wrappers/StatsContainer";
 import { toast } from "react-toastify";
@@ -21,13 +21,15 @@ const Admin = () => {
 
   return (
     <Wrapper>
-      <StatItem
-        title="current Candidates"
-        count={users}
-        color="#e9b949"
-        bcg="#fcefc7"
-        icon={<FaSuitcaseRolling />}
-      />
+      <Link to={"/dashboard/all-users-docs"}>
+        <StatItem
+          title="current Candidates"
+          count={users}
+          color="#e9b949"
+          bcg="#fcefc7"
+          icon={<FaSuitcaseRolling />}
+        />
+      </Link>
       <StatItem
         title="total Docs"
         count={jobs}

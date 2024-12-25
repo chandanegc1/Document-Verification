@@ -1,4 +1,4 @@
-import { createBrowserRouter , RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   HomeLayout,
   Landing,
@@ -7,111 +7,123 @@ import {
   DashboardLayout,
   Error,
   Stats,
-  AddJob,
   Admin,
   Profile,
-  AllJobs,
-  EditJob
-} from './pages';
+  EditJob,
+} from "./pages";
 import { action as RegisterAction } from "./pages/Register";
-import { action as LoginAction} from "./pages/Login";
+import { action as LoginAction } from "./pages/Login";
 import { loader as DashboardLoader } from "./pages/DashboardLayout";
-import { action as Addjob } from "./pages/AddDocs";
-import {loader as allJobsloader} from "./pages/AllDocs";
+import AddDocs, { action as AddDocsAction } from "./pages/AddDocs";
+import AllDocs, { loader as allDocsloader } from "./pages/AllDocs";
 
-import { loader as editJobLoader } from './pages/EditJob';
-import { action as editJobAction } from './pages/EditJob';
-import { action as deleteJobAction } from './pages/DeleteDocs';
+import { loader as editJobLoader } from "./pages/EditJob";
+import { action as editJobAction } from "./pages/EditJob";
+import { action as deleteJobAction } from "./pages/DeleteDocs";
 
-import { loader as adminLoader } from './pages/Admin';
-import { action as profileAction } from './pages/Profile';
-import { loader as statsLoader } from './pages/Stats';
+import { loader as adminLoader } from "./pages/Admin";
+import { action as profileAction } from "./pages/Profile";
+import { loader as statsLoader } from "./pages/Stats";
 import HRlogin from "./pages/HRlogin";
+import AllDocuments, { loader as allUserDocLoader } from "./pages/AllDocuments";
+import UserDocsContainer, {
+  loader as UserDocLoader,
+} from "./components/UserDocsContainer";
 
+const isAdmin = localStorage.getItem("role") === "admin";
 const router = createBrowserRouter([
   {
-      path: '/',
-      element: <HomeLayout />,
-      errorElement: <Error />,
-      children: [
+    path: "/",
+    element: <HomeLayout />,
+    errorElement: <Error />,
+    children: [
       {
         index: true,
         element: <Landing />,
       },
       {
-        path: 'register',
+        path: "register",
         element: <Register />,
-        action:RegisterAction
+        action: RegisterAction,
       },
       {
-        path: 'hr-login',
+        path: "hr-login",
         element: <HRlogin />,
-        action:RegisterAction
+        action: RegisterAction,
       },
-      
+
       {
-        path: 'dashboard',
+        path: "dashboard",
         element: <DashboardLayout />,
-        loader:DashboardLoader,
+        loader: DashboardLoader,
         children: [
           {
             index: true,
-            element: <AddJob />,
-            action:Addjob
+            element: isAdmin ? <Admin /> : <AddDocs />,
+            loader: isAdmin ? adminLoader : null,
+            action: !isAdmin ? AddDocsAction : null,
           },
-          { path: 'stats',
-            element: <Stats />,
-            loader: statsLoader
+          { path: "stats", element: <Stats />, loader: statsLoader },
+          {
+            path: "all-docs",
+            element: isAdmin ? <AllDocuments /> : <AllDocs />,
+            loader: isAdmin ? allUserDocLoader : allDocsloader,
           },
           {
-            path: 'all-docs',
-            element: <AllJobs />,
-            loader:allJobsloader,
+            path: "all-users-docs",
+            element: <AllDocuments />,
+            loader: allUserDocLoader,
           },
 
           {
-            path: 'profile',
+            path: "profile",
             element: <Profile />,
-            action:profileAction
+            action: profileAction,
           },
           {
-            path: 'admin',
+            path: "admin",
             element: <Admin />,
             loader: adminLoader,
           },
           {
-            path: 'edit-job/:id',
-            element: <EditJob/>,
+            path: "edit-job/:id",
+            element: <EditJob />,
             loader: editJobLoader,
             action: editJobAction,
           },
-          { 
-            path: 'delete-job/:id',
-            action: deleteJobAction 
+          {
+            path: "user-docs/:id",
+            element: <UserDocsContainer />,
+            loader: UserDocLoader,
+          },
+          {
+            path: "delete-job/:id",
+            action: deleteJobAction,
           },
         ],
       },
       {
-        path: 'login',
+        path: "login",
         element: <Login />,
-        action:LoginAction
+        action: LoginAction,
       },
     ],
   },
 ]);
 const App = () => {
   const checkDefaultTheme = () => {
-    const isDarkTheme =
-      localStorage.getItem('darkTheme') === 'true'
-    document.body.classList.toggle('dark-theme', isDarkTheme);
+    const isDarkTheme = localStorage.getItem("darkTheme") === "true";
+    document.body.classList.toggle("dark-theme", isDarkTheme);
     return isDarkTheme;
   };
-  
-  const isDarkThemeEnabled = checkDefaultTheme();
-  return <>
-  <RouterProvider router={router}/>
-  </>
-  
-}
 
-export default App
+  const isDarkThemeEnabled = checkDefaultTheme();
+  // console.log(localStorage.getItem())
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+};
+
+export default App;

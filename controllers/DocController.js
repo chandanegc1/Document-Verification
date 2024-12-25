@@ -3,8 +3,8 @@ import StatusCodes from "http-status-codes";
 import { NotFoundError } from "../CustomError/customError.js";
 import mongoose from "mongoose";
 import dayjs from "dayjs";
-import cloudinary from 'cloudinary';
-import { promises as fs } from 'fs';
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs";
 
 export const createJob = async (req, res) => {
   req.body.createdBy = req.user.userId;
@@ -98,6 +98,13 @@ export const getJob = async (req, res) => {
   res.status(StatusCodes.OK).json({ job });
 };
 
+export const getUserDoc = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const job = await Doc.find({createdBy:id});
+  if (!job) throw new NotFoundError(`no job with id : ${id}`);
+  res.status(StatusCodes.OK).json({ job });
+};
 export const deletejob = async (req, res) => {
   const { id } = req.params;
   const removedJob = await Doc.findByIdAndDelete(id);
