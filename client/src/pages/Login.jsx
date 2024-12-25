@@ -28,7 +28,7 @@ const Login = () => {
       <Form method='post' className='form'>
         <SmallLogo />
         <h4>Login</h4>
-        <FormRow type='email' name='email' defaultValue='chandanegc@gmail.com' />
+        <FormRow type='text' name='email' labelText="Email/Employee ID" defaultValue='chandanegc@gmail.com' />
         <FormRow type='password' name='password' defaultValue='00000000' />
         <button
             className='btn btn-block form-btn'

@@ -29,10 +29,10 @@ const Register = () => {
         <SmallLogo /> 
         <h4>Register</h4>
         <FormRow type='text' name='name' />
-        <FormRow type='text' name='lastName' labelText='last name' />
-        <FormRow type='text' name='location' />
+        <FormRow type='text' name='employeeId' labelText='Employee Id' />
         <FormRow type='email' name='email' />
         <FormRow type='password' name='password' />
+        <FormRow type='password' name='repassword' />
         <button
             className='btn btn-block form-btn'
             type='submit'

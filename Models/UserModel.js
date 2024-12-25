@@ -4,9 +4,8 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  lastName: {
+  employeeId: {
     type: String,
-    default: 'lastName',
   },
   location: {
     type: String,
@@ -19,6 +18,10 @@ const UserSchema = new mongoose.Schema({
   },
   avatar:String,
   avatarPublicId:String,
+  status: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // remove password (select)

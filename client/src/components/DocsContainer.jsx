@@ -1,6 +1,6 @@
-import Job from './Document';
-import Wrapper from '../assets/wrappers/JobsContainer';
-import { useAllJobsContext } from '../pages/AllDocs';
+import Job from "./Document";
+import Wrapper from "../assets/wrappers/JobsContainer";
+import { useAllJobsContext } from "../pages/AllDocs";
 
 const JobsContainer = () => {
   const { data } = useAllJobsContext();
@@ -15,7 +15,7 @@ const JobsContainer = () => {
 
   return (
     <Wrapper>
-      <div className='jobs'>
+      <div className="jobs">
         {jobs.map((job) => {
           return <Job key={job._id} {...job} />;
         })}

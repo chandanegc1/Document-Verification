@@ -1,8 +1,8 @@
-import { toast } from 'react-toastify';
-import { JobsContainer, SearchContainer } from '../components';
-import customFetch from '../utils/customFetch';
-import { useLoaderData } from 'react-router-dom';
-import { useContext, createContext } from 'react';
+import { toast } from "react-toastify";
+import { JobsContainer, SearchContainer } from "../components";
+import customFetch from "../utils/customFetch";
+import { useLoaderData } from "react-router-dom";
+import { useContext, createContext } from "react";
 
 const AllJobsContext = createContext();
 
@@ -12,7 +12,7 @@ export const loader = async ({ request }) => {
       ...new URL(request.url).searchParams.entries(),
     ]);
 
-    const { data } = await customFetch.get('/docs', {
+    const { data } = await customFetch.get("/jobs", {
       params,
     });
 

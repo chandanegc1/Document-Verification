@@ -50,17 +50,26 @@ const Job = ({ _id, documentName, number, avatar, status, id }) => {
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </Link>
           <Form method="post" action={`../delete-job/${_id}`}>
-            <button type="submit" className="btn delete-btn">
-              Delete
-            </button>
-          </Form> &nbsp;&nbsp;
-          {isAdmin && <FormRowSelect
-            name="jobStatus"
-            labelText="Job Status"
-            defaultValue={status}
-            onChange={(value) => actionFun(value)} // Pass the new status to actionFun
-            list={Object.values(JOB_STATUS)}
-          />}
+            {!isAdmin ? (
+              <button type="submit" className="btn delete-btn">
+                Delete
+              </button>
+            ) : (
+              <a href={avatar} download className="btn delete-btn">
+                Download
+              </a>
+            )}
+          </Form>{" "}
+          &nbsp;&nbsp;
+          {isAdmin && (
+            <FormRowSelect
+              name="jobStatus"
+              labelText="Job Status"
+              defaultValue={status}
+              onChange={(value) => actionFun(value)} // Pass the new status to actionFun
+              list={Object.values(JOB_STATUS)}
+            />
+          )}
         </footer>
       </div>
     </Wrapper>
