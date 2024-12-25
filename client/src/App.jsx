@@ -29,6 +29,7 @@ import AllDocuments, { loader as allUserDocLoader } from "./pages/AllDocuments";
 import UserDocsContainer, {
   loader as UserDocLoader,
 } from "./components/UserDocsContainer";
+import CDRegister, {action as CDaction} from "./pages/CDRegister";
 
 const isAdmin = localStorage.getItem("role") === "admin";
 const router = createBrowserRouter([
@@ -73,6 +74,11 @@ const router = createBrowserRouter([
             path: "all-users-docs",
             element: <AllDocuments />,
             loader: allUserDocLoader,
+          },
+          {
+            path: "cd-register",
+            element: <CDRegister />,
+            action: CDaction,
           },
 
           {

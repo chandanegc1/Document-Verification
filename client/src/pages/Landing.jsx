@@ -1,6 +1,5 @@
 import main from '../assets/images/main.svg';
 import { Link } from 'react-router-dom';
-import logo from '../assets/images/logo.svg';
 import styled from 'styled-components';
 import { SmallLogo } from '../components/Logo';
 const Landing = () => {
@@ -20,11 +19,11 @@ const Landing = () => {
            Sed do eiusmod aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit.
            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
           </p>
-          <Link to='/hr-login' className='btn register-link'>
-            HR Login
+          <Link to='/register' className='btn register-link'>
+            HR Registration
           </Link>
           <Link to='/login' className='btn'>
-            Candidate Login
+            HR/Candidate Login
           </Link>
         </div>
         <img src={main} alt='job hunt' className='img main-img' />

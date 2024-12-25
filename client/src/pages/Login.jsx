@@ -14,7 +14,8 @@ export const action = async ({ request }) => {
     toast.success(res.data.msg);
     console.log(res.data);
     localStorage.setItem('role', res.data.role);
-    return redirect("/dashboard");
+    return redirect("/dashboard/all-docs");
+    window.location.reload();
   } catch (error) {
     toast.error(error.response.data.msg);
     return error;
