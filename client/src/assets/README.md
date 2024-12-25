@@ -1,6 +1,6 @@
 #### Complete App
 
-[Jobify](https://jobify.live/)
+[Jobify](https://docify.live/)
 
 #### Create React APP
 
@@ -447,13 +447,13 @@ const Landing = () => {
   return (
     <StyledWrapper>
       <nav>
-        <img src={logo} alt='jobify' className='logo' />
+        <img src={logo} alt='docify' className='logo' />
       </nav>
       <div className='container page'>
         {/* info */}
         <div className='info'>
           <h1>
-            job <span>tracking</span> app
+            doc <span>tracking</span> app
           </h1>
           <p>
             I'm baby wayfarers hoodie next level taiyaki brooklyn cliche blue
@@ -468,7 +468,7 @@ const Landing = () => {
             Login / Demo User
           </Link>
         </div>
-        <img src={main} alt='job hunt' className='img main-img' />
+        <img src={main} alt='doc hunt' className='img main-img' />
       </div>
     </StyledWrapper>
   );
@@ -548,7 +548,7 @@ import Wrapper from '../assets/wrappers/LandingPage';
 import logo from '../assets/images/logo.svg';
 
 const Logo = () => {
-  return <img src={logo} alt='jobify' className='logo' />;
+  return <img src={logo} alt='docify' className='logo' />;
 };
 
 export default Logo;
@@ -844,7 +844,7 @@ App.jsx
           },
           { path: 'stats', element: <Stats /> },
           {
-            path: 'all-jobs',
+            path: 'all-docs',
             element: <AllJobs />,
           },
 
@@ -1126,8 +1126,8 @@ import { ImProfile } from 'react-icons/im';
 import { MdAdminPanelSettings } from 'react-icons/md';
 
 const links = [
-  { text: 'add job', path: '.', icon: <FaWpforms /> },
-  { text: 'all jobs', path: 'all-jobs', icon: <MdQueryStats /> },
+  { text: 'add doc', path: '.', icon: <FaWpforms /> },
+  { text: 'all docs', path: 'all-docs', icon: <MdQueryStats /> },
   { text: 'stats', path: 'stats', icon: <IoBarChartSharp /> },
   { text: 'profile', path: 'profile', icon: <ImProfile /> },
   { text: 'admin', path: 'admin', icon: <MdAdminPanelSettings /> },
@@ -1136,7 +1136,7 @@ const links = [
 export default links;
 ```
 
-- in a second, we will discuss why '.' in "add job"
+- in a second, we will discuss why '.' in "add doc"
 
 #### SmallSidebar
 
@@ -1687,7 +1687,7 @@ rd /s /q .git
 - Windows commands were shared by students and I have not personally tested them.
 - git status should return :
   "fatal: Not a git repository (or any of the parent directories): .git"
-- create jobify directory
+- create docify directory
 - copy/paste client
 - move README to root
 
@@ -1892,7 +1892,7 @@ package.json
 
 #### Basic CRUD
 
-- create jobs array where each item is an object with following properties
+- create docs array where each item is an object with following properties
   id, company, position
 - create routes to handle - create, read, update and delete functionalities
 
@@ -1911,13 +1911,13 @@ server.js
 ```js
 import { nanoid } from 'nanoid';
 
-let jobs = [
+let docs = [
   { id: nanoid(), company: 'apple', position: 'front-end' },
   { id: nanoid(), company: 'google', position: 'back-end' },
 ];
 
-app.get('/api/v1/jobs', (req, res) => {
-  res.status(200).json({ jobs });
+app.get('/api/v1/docs', (req, res) => {
+  res.status(200).json({ docs });
 });
 ```
 
@@ -1926,59 +1926,59 @@ app.get('/api/v1/jobs', (req, res) => {
 ```js
 // CREATE JOB
 
-app.post('/api/v1/jobs', (req, res) => {
+app.post('/api/v1/docs', (req, res) => {
   const { company, position } = req.body;
   if (!company || !position) {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const id = nanoid(10);
   // console.log(id);
-  const job = { id, company, position };
-  jobs.push(job);
-  res.status(200).json({ job });
+  const doc = { id, company, position };
+  docs.push(doc);
+  res.status(200).json({ doc });
 });
 
 // GET SINGLE JOB
 
-app.get('/api/v1/jobs/:id', (req, res) => {
+app.get('/api/v1/docs/:id', (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ doc });
 });
 
 // EDIT JOB
 
-app.patch('/api/v1/jobs/:id', (req, res) => {
+app.patch('/api/v1/docs/:id', (req, res) => {
   const { company, position } = req.body;
   if (!company || !position) {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
 
-  job.company = company;
-  job.position = position;
-  res.status(200).json({ msg: 'job modified', job });
+  doc.company = company;
+  doc.position = position;
+  res.status(200).json({ msg: 'doc modified', doc });
 });
 
 // DELETE JOB
 
-app.delete('/api/v1/jobs/:id', (req, res) => {
+app.delete('/api/v1/docs/:id', (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  const newJobs = jobs.filter((job) => job.id !== id);
-  jobs = newJobs;
+  const newJobs = docs.filter((doc) => doc.id !== id);
+  docs = newJobs;
 
-  res.status(200).json({ msg: 'job deleted' });
+  res.status(200).json({ msg: 'doc deleted' });
 });
 ```
 
@@ -2007,24 +2007,24 @@ On the other hand, the "error" middleware in Express.js is used to handle any er
 
 In summary, the "not found" middleware is specifically designed to handle requests for non-existent routes, while the "error" middleware is a catch-all for handling unexpected errors that occur during request processing.
 
-- make a request to "/jobss"
+- make a request to "/docss"
 
 ```js
 // GET ALL JOBS
-app.get('/api/v1/jobs', (req, res) => {
-  // console.log(jobss);
-  res.status(200).json({ jobs });
+app.get('/api/v1/docs', (req, res) => {
+  // console.log(docss);
+  res.status(200).json({ docs });
 });
 
 // GET SINGLE JOB
-app.get('/api/v1/jobs/:id', (req, res) => {
+app.get('/api/v1/docs/:id', (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    throw new Error('no job with that id');
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    throw new Error('no doc with that id');
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ doc });
 });
 ```
 
@@ -2037,13 +2037,13 @@ controllers/DocController.js
 ```js
 import { nanoid } from 'nanoid';
 
-let jobs = [
+let docs = [
   { id: nanoid(), company: 'apple', position: 'front-end developer' },
   { id: nanoid(), company: 'google', position: 'back-end developer' },
 ];
 
 export const getAllJobs = async (req, res) => {
-  res.status(200).json({ jobs });
+  res.status(200).json({ docs });
 };
 
 export const createJob = async (req, res) => {
@@ -2053,19 +2053,19 @@ export const createJob = async (req, res) => {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const id = nanoid(10);
-  const job = { id, company, position };
-  jobs.push(job);
-  res.status(200).json({ job });
+  const doc = { id, company, position };
+  docs.push(doc);
+  res.status(200).json({ doc });
 };
 
 export const getJob = async (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    // throw new Error('no job with that id');
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    // throw new Error('no doc with that id');
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ doc });
 };
 
 export const updateJob = async (req, res) => {
@@ -2074,26 +2074,26 @@ export const updateJob = async (req, res) => {
     return res.status(400).json({ msg: 'please provide company and position' });
   }
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
 
-  job.company = company;
-  job.position = position;
-  res.status(200).json({ msg: 'job modified', job });
+  doc.company = company;
+  doc.position = position;
+  res.status(200).json({ msg: 'doc modified', doc });
 };
 
 export const deleteJob = async (req, res) => {
   const { id } = req.params;
-  const job = jobs.find((job) => job.id === id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = docs.find((doc) => doc.id === id);
+  if (!doc) {
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  const newJobs = jobs.filter((job) => job.id !== id);
-  jobs = newJobs;
+  const newJobs = docs.filter((doc) => doc.id !== id);
+  docs = newJobs;
 
-  res.status(200).json({ msg: 'job deleted' });
+  res.status(200).json({ msg: 'doc deleted' });
 };
 ```
 
@@ -2123,8 +2123,8 @@ export default router;
 server.js
 
 ```js
-import jobRouter from './routers/docRouter.js';
-app.use('/api/v1/jobs', jobRouter);
+import docRouter from './routers/docRouter.js';
+app.use('/api/v1/docs', docRouter);
 ```
 
 #### MongoDB
@@ -2174,17 +2174,17 @@ const JobSchema = new mongoose.Schema(
   {
     company: String,
     position: String,
-    jobStatus: {
+    docStatus: {
       type: String,
       enum: ['interview', 'declined', 'pending'],
       default: 'pending',
     },
-    jobType: {
+    docType: {
       type: String,
       enum: ['full-time', 'part-time', 'internship'],
       default: 'full-time',
     },
-    jobLocation: {
+    docLocation: {
       type: String,
       default: 'my city',
     },
@@ -2204,8 +2204,8 @@ import Job from '../models/JobModel.js';
 
 export const createJob = async (req, res) => {
   const { company, position } = req.body;
-  const job = await Job.create({ company, position });
-  res.status(201).json({ job });
+  const doc = await Job.create({ company, position });
+  res.status(201).json({ doc });
 };
 ```
 
@@ -2217,8 +2217,8 @@ DocController.js
 export const createJob = async (req, res) => {
   const { company, position } = req.body;
   try {
-    const job = await Job.create('something');
-    res.status(201).json({ job });
+    const doc = await Job.create('something');
+    res.status(201).json({ doc });
   } catch (error) {
     res.status(500).json({ msg: 'server error' });
   }
@@ -2249,8 +2249,8 @@ DocController.js
 export const createJob = async (req, res) => {
   const { company, position } = req.body;
 
-  const job = await Job.create({ company, position });
-  res.status(201).json({ job });
+  const doc = await Job.create({ company, position });
+  res.status(201).json({ doc });
 };
 ```
 
@@ -2260,8 +2260,8 @@ DocController.js
 
 ```js
 export const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({});
-  res.status(200).json({ jobs });
+  const docs = await Job.find({});
+  res.status(200).json({ docs });
 };
 ```
 
@@ -2270,11 +2270,11 @@ export const getAllJobs = async (req, res) => {
 ```js
 export const getJob = async (req, res) => {
   const { id } = req.params;
-  const job = await Job.findById(id);
-  if (!job) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+  const doc = await Job.findById(id);
+  if (!doc) {
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  res.status(200).json({ job });
+  res.status(200).json({ doc });
 };
 ```
 
@@ -2288,9 +2288,9 @@ export const deleteJob = async (req, res) => {
   const removedJob = await Job.findByIdAndDelete(id);
 
   if (!removedJob) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
-  res.status(200).json({ job: removedJob });
+  res.status(200).json({ doc: removedJob });
 };
 ```
 
@@ -2305,10 +2305,10 @@ export const updateJob = async (req, res) => {
   });
 
   if (!updatedJob) {
-    return res.status(404).json({ msg: `no job with id ${id}` });
+    return res.status(404).json({ msg: `no doc with id ${id}` });
   }
 
-  res.status(200).json({ job: updatedJob });
+  res.status(200).json({ doc: updatedJob });
 };
 ```
 
@@ -2339,25 +2339,25 @@ npm i http-status-codes@2.2.0
 DocController.js
 
 ```js
-res.status(StatusCodes.OK).json({ jobs });
+res.status(StatusCodes.OK).json({ docs });
 ```
 
 createJob
 
 ```js
-res.status(StatusCodes.CREATED).json({ job });
+res.status(StatusCodes.CREATED).json({ doc });
 ```
 
 #### Custom Error Class
 
-jobController
+docController
 
 ```js
 export const getJob = async (req, res) => {
   ....
-  if (!job) {
-    throw new Error('no job with that id');
-    // return res.status(404).json({ msg: `no job with id ${id}` });
+  if (!doc) {
+    throw new Error('no doc with that id');
+    // return res.status(404).json({ msg: `no doc with id ${id}` });
   }
   ...
 };
@@ -2400,7 +2400,7 @@ DocController.js
 ```js
 import { NotFoundError } from '../customErrors.js';
 
-if (!job) throw new NotFoundError(`no job with id : ${id}`);
+if (!doc) throw new NotFoundError(`no doc with id : ${id}`);
 ```
 
 middleware/errorHandlerMiddleware.js
@@ -2568,17 +2568,17 @@ const JobSchema = new mongoose.Schema(
   {
     company: String,
     position: String,
-    jobStatus: {
+    docStatus: {
       type: String,
       enum: Object.values(JOB_STATUS),
       default: JOB_STATUS.PENDING,
     },
-    jobType: {
+    docType: {
       type: String,
       enum: Object.values(JOB_TYPE),
       default: JOB_TYPE.FULL_TIME,
     },
-    jobLocation: {
+    docLocation: {
       type: String,
       default: 'my city',
     },
@@ -2597,11 +2597,11 @@ import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
 export const validateJobInput = withValidationErrors([
   body('company').notEmpty().withMessage('company is required'),
   body('position').notEmpty().withMessage('position is required'),
-  body('jobLocation').notEmpty().withMessage('job location is required'),
-  body('jobStatus')
+  body('docLocation').notEmpty().withMessage('doc location is required'),
+  body('docStatus')
     .isIn(Object.values(JOB_STATUS))
     .withMessage('invalid status value'),
-  body('jobType').isIn(Object.values(JOB_TYPE)).withMessage('invalid job type'),
+  body('docType').isIn(Object.values(JOB_TYPE)).withMessage('invalid doc type'),
 ]);
 ```
 
@@ -2616,15 +2616,15 @@ router
   .delete(deleteJob);
 ```
 
-- create job request
+- create doc request
 
 ```json
 {
   "company": "coding addict",
   "position": "backend-end",
-  "jobStatus": "pending",
-  "jobType": "full-time",
-  "jobLocation": "florida"
+  "docStatus": "pending",
+  "docType": "full-time",
+  "docLocation": "florida"
 }
 ```
 
@@ -2649,8 +2649,8 @@ export const validateIdParam = withValidationErrors([
   param('id').custom(async (value) => {
     const isValidId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidId) throw new BadRequestError('invalid MongoDB id');
-    const job = await Job.findById(value);
-    if (!job) throw new NotFoundError(`no job with id : ${value}`);
+    const doc = await Job.findById(value);
+    if (!doc) throw new NotFoundError(`no doc with id : ${value}`);
   }),
 ]);
 ```
@@ -2669,7 +2669,7 @@ const withValidationErrors = (validateValues) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         const errorMessages = errors.array().map((error) => error.msg);
-        if (errorMessages[0].startsWith('no job')) {
+        if (errorMessages[0].startsWith('no doc')) {
           throw new NotFoundError(errorMessages);
         }
         throw new BadRequestError(errorMessages);
@@ -3083,13 +3083,13 @@ expires: new Date(Date.now() + oneDay): This option sets the expiration time for
 
 secure: process.env.NODE_ENV === 'production': This option determines whether the cookie should be marked as secure or not. If the NODE_ENV environment variable is set to "production", then the cookie is marked as secure, which means it can only be transmitted over HTTPS. This helps to prevent man-in-the-middle (MITM) attacks, which can intercept and modify cookies that are transmitted over unsecured connections.
 
-jobsController.js
+docsController.js
 
 ```js
 export const getAllJobs = async (req, res) => {
   console.log(req);
-  const jobs = await Job.find({});
-  res.status(StatusCodes.OK).json({ jobs });
+  const docs = await Job.find({});
+  res.status(StatusCodes.OK).json({ docs });
 };
 ```
 
@@ -3128,7 +3128,7 @@ server.js
 ```js
 import { authenticateUser } from './middleware/authMiddleware.js';
 
-app.use('/api/v1/jobs', authenticateUser, jobRouter);
+app.use('/api/v1/docs', authenticateUser, docRouter);
 ```
 
 ##### Cookie Parser
@@ -3200,8 +3200,8 @@ DocController.js
 ```js
 export const getAllJobs = async (req, res) => {
   console.log(req.user);
-  const jobs = await Job.find({ createdBy: req.user.userId });
-  res.status(StatusCodes.OK).json({ jobs });
+  const docs = await Job.find({ createdBy: req.user.userId });
+  res.status(StatusCodes.OK).json({ docs });
 };
 ```
 
@@ -3212,8 +3212,8 @@ DocController.js
 ```js
 export const createJob = async (req, res) => {
   req.body.createdBy = req.user.userId;
-  const job = await Job.create(req.body);
-  res.status(StatusCodes.CREATED).json({ job });
+  const doc = await Job.create(req.body);
+  res.status(StatusCodes.CREATED).json({ doc });
 };
 ```
 
@@ -3252,10 +3252,10 @@ export const validateIdParam = withValidationErrors([
   param('id').custom(async (value, { req }) => {
     const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidMongoId) throw new BadRequestError('invalid MongoDB id');
-    const job = await Job.findById(value);
-    if (!job) throw new NotFoundError(`no job with id ${value}`);
+    const doc = await Job.findById(value);
+    if (!doc) throw new NotFoundError(`no doc with id ${value}`);
     const isAdmin = req.user.role === 'admin';
-    const isOwner = req.user.userId === job.createdBy.toString();
+    const isOwner = req.user.userId === doc.createdBy.toString();
     if (!isAdmin && !isOwner)
       throw UnauthorizedError('not authorized to access this route');
   }),
@@ -3409,8 +3409,8 @@ export const updateUser = async (req, res) => {
 ```js
 export const getApplicationStats = async (req, res) => {
   const users = await User.countDocuments();
-  const jobs = await Job.countDocuments();
-  res.status(StatusCodes.OK).json({ users, jobs });
+  const docs = await Job.countDocuments();
+  res.status(StatusCodes.OK).json({ users, docs });
 };
 ```
 
@@ -3913,14 +3913,14 @@ const AddJob = () => {
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <h4 className='form-title'>add job</h4>
+        <h4 className='form-title'>add doc</h4>
         <div className='form-center'>
           <FormRow type='text' name='position' />
           <FormRow type='text' name='company' />
           <FormRow
             type='text'
-            labelText='job location'
-            name='jobLocation'
+            labelText='doc location'
+            name='docLocation'
             defaultValue={user.location}
           />
 
@@ -3944,12 +3944,12 @@ export default AddJob;
 
 ```js
 <div className='form-row'>
-  <label htmlFor='jobStatus' className='form-label'>
-    job status
+  <label htmlFor='docStatus' className='form-label'>
+    doc status
   </label>
   <select
-    name='jobStatus'
-    id='jobStatus'
+    name='docStatus'
+    id='docStatus'
     className='form-select'
     defaultValue={JOB_TYPE.FULL_TIME}
   >
@@ -3999,14 +3999,14 @@ pages/AddJob.jsx
 
 ```js
 <FormRowSelect
-  labelText='job status'
-  name='jobStatus'
+  labelText='doc status'
+  name='docStatus'
   defaultValue={JOB_STATUS.PENDING}
   list={Object.values(JOB_STATUS)}
   />
 <FormRowSelect
-  name='jobType'
-  labelText='job type'
+  name='docType'
+  labelText='doc type'
   defaultValue={JOB_TYPE.FULL_TIME}
   list={Object.values(JOB_TYPE)}
   />
@@ -4022,7 +4022,7 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await customFetch.post('/jobs', data);
+    await customFetch.post('/docs', data);
     toast.success('Job added successfully');
     return null;
   } catch (error) {
@@ -4050,9 +4050,9 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await customFetch.post('/jobs', data);
+    await customFetch.post('/docs', data);
     toast.success('Job added successfully');
-    return redirect('all-jobs');
+    return redirect('all-docs');
   } catch (error) {
     toast.error(error?.response?.data?.msg);
     return error;
@@ -4130,7 +4130,7 @@ import { useContext, createContext } from 'react';
 
 export const loader = async ({ request }) => {
   try {
-    const { data } = await customFetch.get('/jobs');
+    const { data } = await customFetch.get('/docs');
     return {
       data,
     };
@@ -4186,20 +4186,20 @@ import { useAllJobsContext } from '../pages/AllJobs';
 
 const JobsContainer = () => {
   const { data } = useAllJobsContext();
-  const { jobs } = data;
-  if (jobs.length === 0) {
+  const { docs } = data;
+  if (docs.length === 0) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>
+        <h2>No docs to display...</h2>
       </Wrapper>
     );
   }
 
   return (
     <Wrapper>
-      <div className='jobs'>
-        {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
+      <div className='docs'>
+        {docs.map((doc) => {
+          return <Job key={doc._id} {...doc} />;
         })}
       </div>
     </Wrapper>
@@ -4225,13 +4225,13 @@ const Wrapper = styled.section`
     font-weight: 700;
     margin-bottom: 1.5rem;
   }
-  .jobs {
+  .docs {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 2rem;
   }
   @media (min-width: 1120px) {
-    .jobs {
+    .docs {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 2rem;
@@ -4267,10 +4267,10 @@ const Job = ({
   _id,
   position,
   company,
-  jobLocation,
-  jobType,
+  docLocation,
+  docType,
   createdAt,
-  jobStatus,
+  docStatus,
 }) => {
   const date = day(createdAt).format('MMM Do, YYYY');
 
@@ -4285,10 +4285,10 @@ const Job = ({
       </header>
       <div className='content'>
         <div className='content-center'>
-          <JobInfo icon={<FaLocationArrow />} text={jobLocation} />
+          <JobInfo icon={<FaLocationArrow />} text={docLocation} />
           <JobInfo icon={<FaCalendarAlt />} text={date} />
-          <JobInfo icon={<FaBriefcase />} text={jobType} />
-          <div className={`status ${jobStatus}`}>{jobStatus}</div>
+          <JobInfo icon={<FaBriefcase />} text={docType} />
+          <div className={`status ${docStatus}`}>{docStatus}</div>
         </div>
 
         <footer className='actions'>
@@ -4315,8 +4315,8 @@ import Wrapper from '../assets/wrappers/JobInfo';
 const JobInfo = ({ icon, text }) => {
   return (
     <Wrapper>
-      <span className='job-icon'>{icon}</span>
-      <span className='job-text'>{text}</span>
+      <span className='doc-icon'>{icon}</span>
+      <span className='doc-text'>{text}</span>
     </Wrapper>
   );
 };
@@ -4335,7 +4335,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
 
-  .job-icon {
+  .doc-icon {
     font-size: 1rem;
     margin-right: 1rem;
     display: flex;
@@ -4344,7 +4344,7 @@ const Wrapper = styled.div`
       color: var(--text-secondary-color);
     }
   }
-  .job-text {
+  .doc-text {
     text-transform: capitalize;
     letter-spacing: var(--letter-spacing);
   }
@@ -4446,7 +4446,7 @@ export default Wrapper;
 Job.jsx
 
 ```js
-<Link to={`../edit-job/${_id}`} className='btn edit-btn'>
+<Link to={`../edit-doc/${_id}`} className='btn edit-btn'>
   Edit
 </Link>
 ```
@@ -4484,7 +4484,7 @@ import { action as editJobAction } from './pages/EditJob';
 
 
 {
-  path: 'edit-job/:id',
+  path: 'edit-doc/:id',
   element: <EditJob />,
   loader: editJobLoader,
   action: editJobAction,
@@ -4496,11 +4496,11 @@ pages/EditJob.jsx
 ```js
 export const loader = async ({ params }) => {
   try {
-    const { data } = await customFetch.get(`/jobs/${params.id}`);
+    const { data } = await customFetch.get(`/docs/${params.id}`);
     return data;
   } catch (error) {
     toast.error(error.response.data.msg);
-    return redirect('/dashboard/all-jobs');
+    return redirect('/dashboard/all-docs');
   }
 };
 export const action = async () => {
@@ -4510,7 +4510,7 @@ export const action = async () => {
 const EditJob = () => {
   const params = useParams();
   console.log(params);
-  const { job } = useLoaderData();
+  const { doc } = useLoaderData();
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -4527,9 +4527,9 @@ export const action = async ({ request, params }) => {
   const data = Object.fromEntries(formData);
 
   try {
-    await customFetch.patch(`/jobs/${params.id}`, data);
+    await customFetch.patch(`/docs/${params.id}`, data);
     toast.success('Job edited successfully');
-    return redirect('/dashboard/all-jobs');
+    return redirect('/dashboard/all-docs');
   } catch (error) {
     toast.error(error.response.data.msg);
     return error;
@@ -4537,7 +4537,7 @@ export const action = async ({ request, params }) => {
 };
 
 const EditJob = () => {
-  const { job } = useLoaderData();
+  const { doc } = useLoaderData();
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
@@ -4545,27 +4545,27 @@ const EditJob = () => {
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <h4 className='form-title'>edit job</h4>
+        <h4 className='form-title'>edit doc</h4>
         <div className='form-center'>
-          <FormRow type='text' name='position' defaultValue={job.position} />
-          <FormRow type='text' name='company' defaultValue={job.company} />
+          <FormRow type='text' name='position' defaultValue={doc.position} />
+          <FormRow type='text' name='company' defaultValue={doc.company} />
           <FormRow
             type='text'
-            labelText='job location'
-            name='jobLocation'
-            defaultValue={job.jobLocation}
+            labelText='doc location'
+            name='docLocation'
+            defaultValue={doc.docLocation}
           />
 
           <FormRowSelect
-            name='jobStatus'
-            labelText='job status'
-            defaultValue={job.jobStatus}
+            name='docStatus'
+            labelText='doc status'
+            defaultValue={doc.docStatus}
             list={Object.values(JOB_STATUS)}
           />
           <FormRowSelect
-            name='jobType'
-            labelText='job type'
-            defaultValue={job.jobType}
+            name='docType'
+            labelText='doc type'
+            defaultValue={doc.docType}
             list={Object.values(JOB_TYPE)}
           />
           <button
@@ -4589,7 +4589,7 @@ export default EditJob;
 Job.jsx
 
 ```js
-<Form method='post' action={`../delete-job/${_id}`}>
+<Form method='post' action={`../delete-doc/${_id}`}>
   <button type='submit' className='btn delete-btn'>
     Delete
   </button>
@@ -4605,12 +4605,12 @@ import { toast } from 'react-toastify';
 
 export async function action({ params }) {
   try {
-    await customFetch.delete(`/jobs/${params.id}`);
+    await customFetch.delete(`/docs/${params.id}`);
     toast.success('Job deleted successfully');
   } catch (error) {
     toast.error(error.response.data.msg);
   }
-  return redirect('/dashboard/all-jobs');
+  return redirect('/dashboard/all-docs');
 }
 ```
 
@@ -4619,7 +4619,7 @@ App.jsx
 ```js
 import { action as deleteJobAction } from './pages/DeleteJob';
 
- { path: 'delete-job/:id', action: deleteJobAction },
+ { path: 'delete-doc/:id', action: deleteJobAction },
 ```
 
 #### Admin Page
@@ -4644,7 +4644,7 @@ export const loader = async () => {
 };
 
 const Admin = () => {
-  const { users, jobs } = useLoaderData();
+  const { users, docs } = useLoaderData();
 
   return (
     <Wrapper>
@@ -4711,7 +4711,7 @@ Admin.jsx
 import { StatItem } from '../components';
 
 const Admin = () => {
-  const { users, jobs } = useLoaderData();
+  const { users, docs } = useLoaderData();
 
   return (
     <Wrapper>
@@ -4723,8 +4723,8 @@ const Admin = () => {
         icon={<FaSuitcaseRolling />}
       />
       <StatItem
-        title='total jobs'
-        count={jobs}
+        title='total docs'
+        count={docs}
         color='#647acb'
         bcg='#e0e8f9'
         icon={<FaCalendarCheck />}
@@ -4829,7 +4829,7 @@ app.use(express.static(path.resolve(__dirname, './public')));
 
 #### Profile Page - Initial Setup
 
-- remove jobs,users from DB
+- remove docs,users from DB
 - add avatar property in the user model
 
 models/UserModel.js
@@ -5186,9 +5186,9 @@ export const checkForTestUser = (req, res, next) => {
 {
   "company": "Cogidoo",
   "position": "Help Desk Technician",
-  "jobLocation": "Vyksa",
-  "jobStatus": "pending",
-  "jobType": "part-time",
+  "docLocation": "Vyksa",
+  "docStatus": "pending",
+  "docType": "part-time",
   "createdAt": "2022-07-25T21:26:23Z"
 }
 ```
@@ -5216,11 +5216,11 @@ try {
   const jsonJobs = JSON.parse(
     await readFile(new URL('./utils/mockData.json', import.meta.url))
   );
-  const jobs = jsonJobs.map((job) => {
-    return { ...job, createdBy: user._id };
+  const docs = jsonJobs.map((doc) => {
+    return { ...doc, createdBy: user._id };
   });
   await Job.deleteMany({ createdBy: user._id });
-  await Job.create(jobs);
+  await Job.create(docs);
   console.log('Success!!!');
   process.exit(0);
 } catch (error) {
@@ -5278,7 +5278,7 @@ DocController.js
 export const showStats = async (req, res) => {
   let stats = await Job.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
-    { $group: { _id: '$jobStatus', count: { $sum: 1 } } },
+    { $group: { _id: '$docStatus', count: { $sum: 1 } } },
   ]);
   stats = stats.reduce((acc, curr) => {
     const { _id: title, count } = curr;
@@ -5327,15 +5327,15 @@ export const showStats = async (req, res) => {
 ```js
 let stats = await Job.aggregate([
   { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
-  { $group: { _id: '$jobStatus', count: { $sum: 1 } } },
+  { $group: { _id: '$docStatus', count: { $sum: 1 } } },
 ]);
 ```
 
 let stats = await Job.aggregate([ ... ]); This line says we're going to perform an aggregation operation on the Job collection in MongoDB and save the result in a variable called stats. The await keyword is used to wait for the operation to finish before continuing, as the operation is asynchronous (i.e., it runs in the background).
 
-{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the jobs so that only the ones created by the user specified by req.user.userId are passed to the next stage. The new mongoose.Types.ObjectId(req.user.userId) part converts req.user.userId into an ObjectId (which is the format MongoDB uses for ids).
+{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the docs so that only the ones created by the user specified by req.user.userId are passed to the next stage. The new mongoose.Types.ObjectId(req.user.userId) part converts req.user.userId into an ObjectId (which is the format MongoDB uses for ids).
 
-{ $group: { _id: '$jobStatus', count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining jobs by their status (the jobStatus field). For each group, it calculates the count of jobs by adding 1 for each job ({ $sum: 1 }), and stores this in a field called count.
+{ $group: { _id: '$docStatus', count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining docs by their status (the docStatus field). For each group, it calculates the count of docs by adding 1 for each doc ({ $sum: 1 }), and stores this in a field called count.
 
 ```js
 let monthlyApplications = await Job.aggregate([
@@ -5353,15 +5353,15 @@ let monthlyApplications = await Job.aggregate([
 
 let monthlyApplications = await Job.aggregate([ ... ]); This line indicates that an aggregation operation will be performed on the Job collection in MongoDB. The result will be stored in the variable monthlyApplications. The await keyword ensures that the code waits for this operation to complete before proceeding, as it is an asynchronous operation.
 
-{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the jobs to only those created by the user identified by req.user.userId.
+{ $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } } This is the first stage of the pipeline. It filters the docs to only those created by the user identified by req.user.userId.
 
-{ $group: { _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } }, count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining jobs based on the year and month when they were created. For each group, it calculates the count of jobs by adding 1 for each job in the group.
+{ $group: { _id: { year: { $year: '$createdAt' }, month: { $month: '$createdAt' } }, count: { $sum: 1 } } } This is the second stage of the pipeline. It groups the remaining docs based on the year and month when they were created. For each group, it calculates the count of docs by adding 1 for each doc in the group.
 
 { $sort: { '\_id.year': -1, '\_id.month': -1 } } This is the third stage of the pipeline. It sorts the groups by year and month in descending order. The -1 indicates descending order. So it starts with the most recent year and month.
 
-{ $limit: 6 } This is the fourth and last stage of the pipeline. It limits the output to the top 6 groups, after sorting. This is effectively getting the job count for the last 6 months.
+{ $limit: 6 } This is the fourth and last stage of the pipeline. It limits the output to the top 6 groups, after sorting. This is effectively getting the doc count for the last 6 months.
 
-So, monthlyApplications will be an array with up to 6 elements, each representing the number of jobs created by the user in a specific month and year. The array will be sorted by year and month, starting with the most recent.
+So, monthlyApplications will be an array with up to 6 elements, each representing the number of docs created by the user in a specific month and year. The array will be sorted by year and month, starting with the most recent.
 
 #### Stats - Front-End Setup
 
@@ -5377,7 +5377,7 @@ import customFetch from '../utils/customFetch';
 import { useLoaderData } from 'react-router-dom';
 export const loader = async () => {
   try {
-    const response = await customFetch.get('/jobs/stats');
+    const response = await customFetch.get('/docs/stats');
     return response.data;
   } catch (error) {
     return error;
@@ -5421,7 +5421,7 @@ const StatsContainer = ({ defaultStats }) => {
       bcg: '#e0e8f9',
     },
     {
-      title: 'jobs declined',
+      title: 'docs declined',
       count: defaultStats?.declined || 0,
       icon: <FaBug />,
       color: '#d66a6a',
@@ -5570,7 +5570,7 @@ Query parameters, also known as query strings or URL parameters, are used to pas
 
 ```js
 export const getAllJobs = async (req, res) => {
-  const { search, jobStatus, jobType, sort } = req.query;
+  const { search, docStatus, docType, sort } = req.query;
 
   const queryObject = {
     createdBy: req.user.userId,
@@ -5582,11 +5582,11 @@ export const getAllJobs = async (req, res) => {
       { company: { $regex: search, $options: 'i' } },
     ];
   }
-  if (jobStatus && jobStatus !== 'all') {
-    queryObject.jobStatus = jobStatus;
+  if (docStatus && docStatus !== 'all') {
+    queryObject.docStatus = docStatus;
   }
-  if (jobType && jobType !== 'all') {
-    queryObject.jobType = jobType;
+  if (docType && docType !== 'all') {
+    queryObject.docType = docType;
   }
 
   const sortOptions = {
@@ -5603,7 +5603,7 @@ export const getAllJobs = async (req, res) => {
   const limit = Number(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const jobs = await Job.find(queryObject)
+  const docs = await Job.find(queryObject)
     .sort(sortKey)
     .skip(skip)
     .limit(limit);
@@ -5613,7 +5613,7 @@ export const getAllJobs = async (req, res) => {
 
   res
     .status(StatusCodes.OK)
-    .json({ totalJobs, numOfPages, currentPage: page, jobs });
+    .json({ totalJobs, numOfPages, currentPage: page, docs });
 };
 ```
 
@@ -5638,14 +5638,14 @@ const SearchContainer = () => {
 
           <FormRow type='search' name='search' defaultValue='a' />
           <FormRowSelect
-            labelText='job status'
-            name='jobStatus'
+            labelText='doc status'
+            name='docStatus'
             list={['all', ...Object.values(JOB_STATUS)]}
             defaultValue='all'
           />
           <FormRowSelect
-            labelText='job type'
-            name='jobType'
+            labelText='doc type'
+            name='docType'
             list={['all', ...Object.values(JOB_TYPE)]}
             defaultValue='all'
           />
@@ -5655,7 +5655,7 @@ const SearchContainer = () => {
             list={[...Object.values(JOB_SORT_BY)]}
           />
 
-          <Link to='/dashboard/all-jobs' className='btn form-btn delete-btn'>
+          <Link to='/dashboard/all-docs' className='btn form-btn delete-btn'>
             Reset Search Values
           </Link>
           {/* TEMP!!!! */}
@@ -5686,7 +5686,7 @@ export const loader = async ({ request }) => {
       ...new URL(request.url).searchParams.entries(),
     ]);
 
-    const { data } = await customFetch.get('/jobs', {
+    const { data } = await customFetch.get('/docs', {
       params,
     });
 
@@ -5749,7 +5749,7 @@ import { JOB_TYPE, JOB_STATUS, JOB_SORT_BY } from '../../../utils/constants';
 import { useAllJobsContext } from '../pages/AllJobs';
 const SearchContainer = () => {
   const { searchValues } = useAllJobsContext();
-  const { search, jobStatus, jobType, sort } = searchValues;
+  const { search, docStatus, docType, sort } = searchValues;
 
   const submit = useSubmit();
 
@@ -5769,18 +5769,18 @@ const SearchContainer = () => {
             }}
           />
           <FormRowSelect
-            labelText='job status'
-            name='jobStatus'
+            labelText='doc status'
+            name='docStatus'
             list={['all', ...Object.values(JOB_STATUS)]}
-            defaultValue={jobStatus}
+            defaultValue={docStatus}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
           />
           <FormRowSelect
-            labelText='job type'
-            name='jobType'
-            defaultValue={jobType}
+            labelText='doc type'
+            name='docType'
+            defaultValue={docType}
             list={['all', ...Object.values(JOB_TYPE)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
@@ -5794,7 +5794,7 @@ const SearchContainer = () => {
               submit(e.currentTarget.form);
             }}
           />
-          <Link to='/dashboard/all-jobs' className='btn form-btn delete-btn'>
+          <Link to='/dashboard/all-docs' className='btn form-btn delete-btn'>
             Reset Search Values
           </Link>
         </div>
@@ -5847,11 +5847,11 @@ import { useAllJobsContext } from '../pages/AllJobs';
 
 const JobsContainer = () => {
   const { data } = useAllJobsContext();
-  const { jobs, totalJobs, numOfPages } = data;
-  if (jobs.length === 0) {
+  const { docs, totalJobs, numOfPages } = data;
+  if (docs.length === 0) {
     return (
       <Wrapper>
-        <h2>No jobs to display...</h2>
+        <h2>No docs to display...</h2>
       </Wrapper>
     );
   }
@@ -5859,11 +5859,11 @@ const JobsContainer = () => {
   return (
     <Wrapper>
       <h5>
-        {totalJobs} job{jobs.length > 1 && 's'} found
+        {totalJobs} doc{docs.length > 1 && 's'} found
       </h5>
-      <div className='jobs'>
-        {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
+      <div className='docs'>
+        {docs.map((doc) => {
+          return <Job key={doc._id} {...doc} />;
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}
@@ -6334,7 +6334,7 @@ Stats.jsx
 
 ```js
 export const loader = async () => {
-  const response = await customFetch.get('/jobs/stats');
+  const response = await customFetch.get('/docs/stats');
   return response.data;
 };
 ```
@@ -6378,7 +6378,7 @@ export const loader = async () => {
 const Stats = () => {
   const response = useQuery({
     queryKey: ['stats'],
-    queryFn: () => customFetch.get('/jobs/stats'),
+    queryFn: () => customFetch.get('/docs/stats'),
   });
   console.log(response);
   if (response.isLoading) {
@@ -6400,17 +6400,17 @@ export default Stats;
 ```js
 const data = useQuery({
   queryKey: ['stats'],
-  queryFn: () => customFetch.get('/jobs/stats'),
+  queryFn: () => customFetch.get('/docs/stats'),
 });
 ```
 
 const data = useQuery({ ... });: This line declares a constant variable named data and assigns it the result of the useQuery hook. The useQuery hook is provided by React Query and is used to perform data fetching.
 
-queryKey: ['stats'],: The queryKey property is an array that serves as a unique identifier for the query. In this case, the query key is set to ['stats'], indicating that this query is fetching statistics related to jobs.
+queryKey: ['stats'],: The queryKey property is an array that serves as a unique identifier for the query. In this case, the query key is set to ['stats'], indicating that this query is fetching statistics related to docs.
 
-queryFn: () => customFetch.get('/jobs/stats'),: The queryFn property specifies the function that will be executed when the query is triggered. In this case, it uses an arrow function that calls customFetch.get('/jobs/stats'). The customFetch object is likely a custom wrapper around the fetch function or an external HTTP client library, used to make the actual API request to retrieve job statistics.In React Query, the queryFn property expects a function that returns a promise. The promise should resolve with the data you want to fetch and store in the query cache.
+queryFn: () => customFetch.get('/docs/stats'),: The queryFn property specifies the function that will be executed when the query is triggered. In this case, it uses an arrow function that calls customFetch.get('/docs/stats'). The customFetch object is likely a custom wrapper around the fetch function or an external HTTP client library, used to make the actual API request to retrieve doc statistics.In React Query, the queryFn property expects a function that returns a promise. The promise should resolve with the data you want to fetch and store in the query cache.
 
-customFetch.get('/jobs/stats'): This line is making an HTTP GET request to the /jobs/stats endpoint, which is the API route that provides the job statistics data.
+customFetch.get('/docs/stats'): This line is making an HTTP GET request to the /docs/stats endpoint, which is the API route that provides the doc statistics data.
 
 #### Get Stats with React Query
 
@@ -6418,7 +6418,7 @@ customFetch.get('/jobs/stats'): This line is making an HTTP GET request to the /
 const statsQuery = {
   queryKey: ['stats'],
   queryFn: async () => {
-    const response = await customFetch.get('/jobs/stats');
+    const response = await customFetch.get('/docs/stats');
     return response.data;
   },
 };
@@ -6470,7 +6470,7 @@ import { useQuery } from '@tanstack/react-query';
 const statsQuery = {
   queryKey: ['stats'],
   queryFn: async () => {
-    const response = await customFetch.get('/jobs/statss');
+    const response = await customFetch.get('/docs/statss');
     return response.data;
   },
 };
@@ -6593,18 +6593,18 @@ import { useQuery } from '@tanstack/react-query';
 const AllJobsContext = createContext();
 
 const allJobsQuery = (params) => {
-  const { search, jobStatus, jobType, sort, page } = params;
+  const { search, docStatus, docType, sort, page } = params;
   return {
     queryKey: [
-      'jobs',
+      'docs',
       search ?? '',
-      jobStatus ?? 'all',
-      jobType ?? 'all',
+      docStatus ?? 'all',
+      docType ?? 'all',
       sort ?? 'newest',
       page ?? 1,
     ],
     queryFn: async () => {
-      const { data } = await customFetch.get('/jobs', {
+      const { data } = await customFetch.get('/docs', {
         params,
       });
       return data;
@@ -6649,10 +6649,10 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     try {
-      await customFetch.post('/jobs', data);
-      queryClient.invalidateQueries(['jobs']);
+      await customFetch.post('/docs', data);
+      queryClient.invalidateQueries(['docs']);
       toast.success('Job added successfully ');
-      return redirect('all-jobs');
+      return redirect('all-docs');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return error;
@@ -6669,10 +6669,10 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     try {
-      await customFetch.patch(`/jobs/${params.id}`, data);
-      queryClient.invalidateQueries(['jobs']);
+      await customFetch.patch(`/docs/${params.id}`, data);
+      queryClient.invalidateQueries(['docs']);
       toast.success('Job edited successfully');
-      return redirect('/dashboard/all-jobs');
+      return redirect('/dashboard/all-docs');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return error;
@@ -6687,13 +6687,13 @@ export const action =
   (queryClient) =>
   async ({ params }) => {
     try {
-      await customFetch.delete(`/jobs/${params.id}`);
-      queryClient.invalidateQueries(['jobs']);
+      await customFetch.delete(`/docs/${params.id}`);
+      queryClient.invalidateQueries(['docs']);
       toast.success('Job deleted successfully');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
     }
-    return redirect('/dashboard/all-jobs');
+    return redirect('/dashboard/all-docs');
   };
 ```
 
@@ -6711,9 +6711,9 @@ import { useQuery } from '@tanstack/react-query';
 
 const singleJobQuery = (id) => {
   return {
-    queryKey: ['job', id],
+    queryKey: ['doc', id],
     queryFn: async () => {
-      const { data } = await customFetch.get(`/jobs/${id}`);
+      const { data } = await customFetch.get(`/docs/${id}`);
       return data;
     },
   };
@@ -6727,7 +6727,7 @@ export const loader =
       return params.id;
     } catch (error) {
       toast.error(error?.response?.data?.msg);
-      return redirect('/dashboard/all-jobs');
+      return redirect('/dashboard/all-docs');
     }
   };
 
@@ -6737,11 +6737,11 @@ export const action =
     const formData = await request.formData();
     const data = Object.fromEntries(formData);
     try {
-      await customFetch.patch(`/jobs/${params.id}`, data);
-      queryClient.invalidateQueries(['jobs']);
+      await customFetch.patch(`/docs/${params.id}`, data);
+      queryClient.invalidateQueries(['docs']);
 
       toast.success('Job edited successfully');
-      return redirect('/dashboard/all-jobs');
+      return redirect('/dashboard/all-docs');
     } catch (error) {
       toast.error(error?.response?.data?.msg);
       return error;
@@ -6752,32 +6752,32 @@ const EditJob = () => {
   const id = useLoaderData();
 
   const {
-    data: { job },
+    data: { doc },
   } = useQuery(singleJobQuery(id));
 
   return (
     <Wrapper>
       <Form method='post' className='form'>
-        <h4 className='form-title'>edit job</h4>
+        <h4 className='form-title'>edit doc</h4>
         <div className='form-center'>
-          <FormRow type='text' name='position' defaultValue={job.position} />
-          <FormRow type='text' name='company' defaultValue={job.company} />
+          <FormRow type='text' name='position' defaultValue={doc.position} />
+          <FormRow type='text' name='company' defaultValue={doc.company} />
           <FormRow
             type='text'
-            name='jobLocation'
-            labelText='job location'
-            defaultValue={job.jobLocation}
+            name='docLocation'
+            labelText='doc location'
+            defaultValue={doc.docLocation}
           />
           <FormRowSelect
-            name='jobStatus'
-            labelText='job status'
-            defaultValue={job.jobStatus}
+            name='docStatus'
+            labelText='doc status'
+            defaultValue={doc.docStatus}
             list={Object.values(JOB_STATUS)}
           />
           <FormRowSelect
-            name='jobType'
-            labelText='job type'
-            defaultValue={job.jobType}
+            name='docType'
+            labelText='doc type'
+            defaultValue={doc.docType}
             list={Object.values(JOB_TYPE)}
           />
           <SubmitBtn formBtn />

@@ -9,6 +9,6 @@ const router = Router();
 router.route("/").post(authenticateUser, validateJobInput,createJob).get(authenticateUser ,getAllJobs);
 router.route("/stats").get(authenticateUser ,showStats)
 router.get('/user-docs/:id',authenticateUser, getUserDoc);
-router.route("/:id").get(authenticateUser ,getJob).delete(authenticateUser , deletejob).patch(authenticateUser ,validateJobInput , updateJob);
+router.route("/:id").get(authenticateUser ,getJob).delete(authenticateUser , deletejob).put(authenticateUser , updateJob);
 router.post('/create-doc',authenticateUser, upload.single('avatar'), createDocument);
 export default router;

@@ -19,7 +19,6 @@ const LoginPage = () => {
   const [randomIndex] = useState(Math.floor(Math.random() * images.length));
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("");
-  const navigate = useNavigate();
 
   //   useEffect(() => {
   //     const login = localStorage.getItem("login_credentials");

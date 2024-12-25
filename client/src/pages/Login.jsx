@@ -8,19 +8,16 @@ import { SmallLogo } from '../components/Logo';
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData); 
-
   try {
     const res = await customFetch.post('/auth/login', data);
     toast.success(res.data.msg);
     console.log(res.data);
     localStorage.setItem('role', res.data.role);
     return redirect("/dashboard/all-docs");
-    window.location.reload();
   } catch (error) {
     toast.error(error.response.data.msg);
     return error;
   }
-  
 };
 
 const Login = () => {

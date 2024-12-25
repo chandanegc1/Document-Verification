@@ -21,7 +21,7 @@ const columns = [
     headerName: "ID",
     width: 50,
     renderCell: (params) => (
-      <Link to={`../user-docs/${params.row._id}`}>{params.row.id}</Link>
+      <Link to={`/dashboard/user-docs/${params.row._id}`}>{params.row.id}</Link>
     ),
   },
   {
@@ -29,7 +29,7 @@ const columns = [
     headerName: "Employee ID",
     width: 200,
     renderCell: (params) => (
-      <Link to={`../user-docs/${params.row._id}`}>
+      <Link to={`/dashboard/user-docs/${params.row._id}`}>
         {params.row._id.slice(14, 24)}
       </Link>
     ),
@@ -41,9 +41,14 @@ const columns = [
     sortable: false,
     width: 200,
     renderCell: (params) => (
-      <Link to={`../user-docs/${params.row._id}`}>
-        {params.row.name || "N/A"}
-      </Link>
+      <>
+        <div id="table-row-data">
+          {params.row.avatar && <img src={params.row.avatar} alt="avatar" />}
+          <Link to={`/dashboard/user-docs/${params.row._id}`}>
+            <p>{params.row.name || "N/A"}</p>
+          </Link>
+        </div>
+      </>
     ),
   },
   {
@@ -51,7 +56,7 @@ const columns = [
     headerName: "Email",
     width: 200,
     renderCell: (params) => (
-      <Link to={`../user-docs/${params.row._id}`}>
+      <Link to={`/dashboard/user-docs/${params.row._id}`}>
         {params.row.email || "N/A"}
       </Link>
     ),

@@ -11,7 +11,7 @@ export const loader = async ({ params }) => {
   } catch (error) {
     toast.error(error.response.data.msg);
     console.log(error);
-    return null;
+    return error;
   }
 };
 
@@ -25,11 +25,12 @@ const UserDocsContainer = () => {
     );
   }
 
+  const {id} = useParams();
   return (
     <Wrapper>
       <div className="jobs">
         {job.map((job) => {
-          return <Job key={job._id} {...job} />;
+          return <Job key={job._id} {...job} id={id} />;
         })}
       </div>
     </Wrapper>

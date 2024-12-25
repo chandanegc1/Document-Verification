@@ -12,7 +12,7 @@ export const loader = async ({ request }) => {
       ...new URL(request.url).searchParams.entries(),
     ]);
 
-    const { data } = await customFetch.get('/jobs', {
+    const { data } = await customFetch.get('/docs', {
       params,
     });
 
@@ -31,7 +31,6 @@ const AllDocs = () => {
 
   return (
     <AllJobsContext.Provider value={{ data, searchValues }}>
-      {/* <SearchContainer /> */}
       <JobsContainer />
     </AllJobsContext.Provider>
   );

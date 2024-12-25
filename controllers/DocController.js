@@ -115,13 +115,19 @@ export const deletejob = async (req, res) => {
 
 export const updateJob = async (req, res) => {
   const { id } = req.params;
-  const updatedJob = await Doc.findByIdAndUpdate(id, req.body, {
-    new: true, // show in  response is updated values;
-  });
-
-  if (!updatedJob) throw new NotFoundError(`no job with id : ${id}`);
-  res.status(StatusCodes.OK).json({ job: updatedJob });
+  try {
+    const updatedJob = await Doc.findById(id);
+    if (!updatedJob) {
+      throw new NotFoundError(`No job with id: ${id}`);
+    }
+    updatedJob.status = req.body.jobStatus;
+    const savedJob = await updatedJob.save();
+    res.status(StatusCodes.OK).json({ job: savedJob });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
 };
+
 
 export const showStats = async (req, res) => {
   let stats = await Doc.aggregate([

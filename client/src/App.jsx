@@ -6,30 +6,27 @@ import {
   Login,
   DashboardLayout,
   Error,
-  Stats,
   Admin,
   Profile,
-  EditJob,
 } from "./pages";
-import { action as RegisterAction } from "./pages/Register";
+import { action as RegisterAction } from "./pages/HRRegister";
 import { action as LoginAction } from "./pages/Login";
 import { loader as DashboardLoader } from "./pages/DashboardLayout";
 import AddDocs, { action as AddDocsAction } from "./pages/AddDocs";
 import AllDocs, { loader as allDocsloader } from "./pages/AllDocs";
 
-import { loader as editJobLoader } from "./pages/EditJob";
-import { action as editJobAction } from "./pages/EditJob";
 import { action as deleteJobAction } from "./pages/DeleteDocs";
 
 import { loader as adminLoader } from "./pages/Admin";
 import { action as profileAction } from "./pages/Profile";
-import { loader as statsLoader } from "./pages/Stats";
 import HRlogin from "./pages/HRlogin";
-import AllDocuments, { loader as allUserDocLoader } from "./pages/AllDocuments";
+import AllDocuments, {
+  loader as allUserDocLoader,
+} from "./pages/TableCandidates";
 import UserDocsContainer, {
   loader as UserDocLoader,
 } from "./components/UserDocsContainer";
-import CDRegister, {action as CDaction} from "./pages/CDRegister";
+import CDRegister, { action as CDaction } from "./pages/CDRegister";
 
 const isAdmin = localStorage.getItem("role") === "admin";
 const router = createBrowserRouter([
@@ -61,10 +58,9 @@ const router = createBrowserRouter([
           {
             index: true,
             element: isAdmin ? <AllDocuments /> : <AddDocs />,
-            loader: isAdmin ?allUserDocLoader : null,
+            loader: isAdmin ? allUserDocLoader : null,
             action: !isAdmin ? AddDocsAction : null,
           },
-          { path: "stats", element: <Stats />, loader: statsLoader },
           {
             path: "all-docs",
             element: isAdmin ? <AllDocuments /> : <AllDocs />,
@@ -90,12 +86,6 @@ const router = createBrowserRouter([
             path: "admin",
             element: <Admin />,
             loader: adminLoader,
-          },
-          {
-            path: "edit-job/:id",
-            element: <EditJob />,
-            loader: editJobLoader,
-            action: editJobAction,
           },
           {
             path: "user-docs/:id",
