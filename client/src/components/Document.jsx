@@ -46,9 +46,9 @@ const Job = ({ _id, documentName, number, avatar, status, id }) => {
           />
         </div>
         <footer className="actions">
-          <Link to={`../edit-job/${_id}`} className={`btn edit-btn ${status}`}>
+          <p className={`btn edit-btn ${status}`}>
             {status.charAt(0).toUpperCase() + status.slice(1)}
-          </Link>
+          </p>
           <Form method="post" action={`../delete-job/${_id}`}>
             {!isAdmin ? (
               <button type="submit" className="btn delete-btn">

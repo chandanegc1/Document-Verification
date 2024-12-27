@@ -26,7 +26,7 @@ export const action = async ({ request }) => {
 
 const Profile = () => {
   const { user } = useOutletContext();
-  const { name, lastName, email, location } = user;
+  const { name, employeeId, email, location } = user;
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
   return (
@@ -48,12 +48,12 @@ const Profile = () => {
             />
           </div>
           <FormRow type='text' name='name' defaultValue={name} />
-          <FormRow
+          {/* <FormRow
             type='text'
-            labelText='last name'
-            name='lastName'
-            defaultValue={lastName}
-          />
+            labelText='Employee ID'
+            name='employeeId'
+            defaultValue={employeeId}
+          /> */}
           <FormRow type='email' name='email' defaultValue={email} />
           <FormRow type='text' name='location' defaultValue={location} />
           <button

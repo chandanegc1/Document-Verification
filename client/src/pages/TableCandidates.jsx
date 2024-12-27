@@ -30,7 +30,7 @@ const columns = [
     width: 200,
     renderCell: (params) => (
       <Link to={`/dashboard/user-docs/${params.row._id}`}>
-        {params.row._id.slice(14, 24)}
+        {params.row.employeeId || "N/A"}
       </Link>
     ),
   },
@@ -67,7 +67,7 @@ const columns = [
     width: 200,
     renderCell: (params) => (
       <Link to={`/dashboard/user-docs/${params.row._id}`}>
-        {params.row.status?<p style={{color:"green"}}>Completed</p>: <p style={{color:"green"}}>Pending</p>}
+        {params.row.status?<p style={{color:"green"}}>Completed</p>: <p style={{color:"red"}}>Pending</p>}
       </Link>
     ),
   },

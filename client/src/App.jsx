@@ -27,6 +27,7 @@ import UserDocsContainer, {
   loader as UserDocLoader,
 } from "./components/UserDocsContainer";
 import CDRegister, { action as CDaction } from "./pages/CDRegister";
+import OTPVerification from "./utils/Otp";
 
 const isAdmin = localStorage.getItem("role") === "admin";
 const router = createBrowserRouter([
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
           {
             path: "delete-job/:id",
             action: deleteJobAction,
+          },
+          {
+            path: "opt",
+            element: <OTPVerification/>,
           },
         ],
       },
