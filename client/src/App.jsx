@@ -57,7 +57,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <AddDocs />, // Placeholder; will dynamically render based on `role`
+            element: <AddDocs />,
           },
           {
             path: "all-docs",

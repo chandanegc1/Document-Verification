@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { createDocument, createJob, deletejob, getAllJobs, getJob, getUserDoc, showStats, updateJob } from "../controllers/DocController.js";
 import { validateJobInput } from "../Middleware/ValidationMiddleware.js";
-import { authenticateUser } from "../Middleware/authMiddleware.js";
+import { authenticateUser, authorizePermissions } from "../Middleware/authMiddleware.js";
 import upload from "../Middleware/multerMiddleware.js";
 
 const router = Router();
