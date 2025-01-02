@@ -28,8 +28,8 @@ import UserDocsContainer, {
 } from "./components/UserDocsContainer";
 import CDRegister, { action as CDaction } from "./pages/CDRegister";
 import OTPVerification from "./utils/Otp";
+import { useEffect, useState } from "react";
 
-const isAdmin = localStorage.getItem("role") === "admin";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,7 +50,6 @@ const router = createBrowserRouter([
         element: <HRlogin />,
         action: RegisterAction,
       },
-
       {
         path: "dashboard",
         element: <DashboardLayout />,
@@ -58,14 +57,12 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: isAdmin ? <AllDocuments /> : <AddDocs />,
-            loader: isAdmin ? allUserDocLoader : null,
-            action: !isAdmin ? AddDocsAction : null,
+            element: <AddDocs />, // Placeholder; will dynamically render based on `role`
           },
           {
             path: "all-docs",
-            element: isAdmin ? <AllDocuments /> : <AllDocs />,
-            loader: isAdmin ? allUserDocLoader : allDocsloader,
+            element: <AllDocs />,
+            loader: allDocsloader,
           },
           {
             path: "all-users-docs",
@@ -99,7 +96,7 @@ const router = createBrowserRouter([
           },
           {
             path: "opt",
-            element: <OTPVerification/>,
+            element: <OTPVerification />,
           },
         ],
       },
@@ -111,20 +108,44 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-const App = () => {
-  const checkDefaultTheme = () => {
-    const isDarkTheme = localStorage.getItem("darkTheme") === "true";
-    document.body.classList.toggle("dark-theme", isDarkTheme);
-    return isDarkTheme;
-  };
 
-  const isDarkThemeEnabled = checkDefaultTheme();
-  // console.log(localStorage.getItem())
+const App = () => {
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    const checkRole = () => {
+      const storedRole = localStorage.getItem("role");
+      setRole(storedRole);
+    };
+    checkRole();
+    const handleStorageChange = () => {
+      checkRole();
+    };
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider
+      router={router}
+      fallbackElement={<div>Loading...</div>}
+    >
+      <DashboardContent role={role} />
+    </RouterProvider>
   );
+};
+
+const DashboardContent = ({ role }) => {
+  if (role === "admin") {
+    return <AllDocuments />;
+  } else if (role === "user") {
+    return <AddDocs />;
+  } else {
+    return <div>Loading role...</div>;
+  }
 };
 
 export default App;

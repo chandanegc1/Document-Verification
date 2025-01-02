@@ -9,7 +9,7 @@ import { UnauthenticatedError } from "../CustomError/customError.js";
 import { createJWT } from "../utils/tokenUtils.js";
 
 export const register = async (req, res) => {
-  const existingUserByEmail = await User.findOne({ email: req.body.email });
+  const existingUserByEmail =req.body.email? await User.findOne({ email: req.body.email }):null;
   const existingUserByEmployeeId = await User.findOne({
     employeeId: req.body.employeeId,
   });

@@ -41,6 +41,7 @@ const Dashboard = () => {
   const logoutUser = async () => {
     navigate("/");
     await customFetch("/auth/logout");
+    localStorage.removeItem("role");
     toast.success("Loggin out...");
   };
 

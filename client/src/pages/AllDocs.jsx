@@ -28,7 +28,6 @@ export const loader = async ({ request }) => {
 
 const AllDocs = () => {
   const { data, searchValues } = useLoaderData();
-
   return (
     <AllJobsContext.Provider value={{ data, searchValues }}>
       <JobsContainer />

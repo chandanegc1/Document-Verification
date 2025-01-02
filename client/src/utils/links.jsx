@@ -16,6 +16,11 @@ const links = [
     icon: <MdQueryStats />,
   },
   {
+    text: 'all CD',
+    path: 'all-users-docs',
+    icon: <MdQueryStats />,
+  },
+  {
     text: 'CD Registration',
     path: 'cd-register',
     icon:  <ImProfile />,
