@@ -13,6 +13,7 @@ const NavLinks = ({ isBigSidebar }) => {
         if (path === '.' && role === 'admin') return;
         if (path === 'cd-register' && role !== 'admin') return;
         if (path === 'all-users-docs' && role !== 'admin') return;
+        if (path === 'all-docs' && role !== 'user') return;
         return (
           <NavLink
             to={path}

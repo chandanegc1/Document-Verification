@@ -77,8 +77,8 @@ const paginationModel = { page: 0, pageSize: 10 };
 
 export default function DataTable() {
   const data = useLoaderData();
-  console.log(data);
-  const rows = data.map((item, index) => ({
+  const filterData = data.filter((item) => item.role === "user");
+  const rows = filterData.map((item, index) => ({
     id: index + 1,
     ...item,
   }));

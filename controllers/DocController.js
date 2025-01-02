@@ -100,7 +100,6 @@ export const getJob = async (req, res) => {
 
 export const getUserDoc = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   const job = await Doc.find({createdBy:id});
   if (!job) throw new NotFoundError(`no job with id : ${id}`);
   res.status(StatusCodes.OK).json({ job });
