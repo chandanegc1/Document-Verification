@@ -15,15 +15,14 @@ const Landing = () => {
             Document <span>Verification</span> app
           </h1>
           <p>
-          lorem ipsum dolor sit amet, consectetur adipiscing elit.
-           Sed do eiusmod aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit.
-           Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          The application provides separate interfaces for candidates and HR personnel, enhancing usability with role-specific functionalities. It ensures secure user authentication and management, including registration, login, and logout, while safeguarding data integrity. Candidates can create and update profiles, upload documents, and track their verification status, fostering transparency and efficiency. HR personnel can view, verify, and manage candidate documents, update their status, and download them as needed. 
+          Additionally, the system automates credential creation by enabling HR to generate employee IDs and passwords for new hires, streamlining the onboarding process.
           </p>
           <Link to='/register' className='btn register-link'>
             HR Registration
           </Link>
           <Link to='/login' className='btn'>
-            HR/Candidate Login
+            Demo/Login
           </Link>
         </div>
         <img src={main} alt='job hunt' className='img main-img' />
