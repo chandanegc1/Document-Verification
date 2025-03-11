@@ -57,6 +57,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
+            action:AddDocsAction,
             element: <AddDocs />,
           },
           {
