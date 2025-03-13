@@ -8,6 +8,9 @@ import authRouter from './Router/authRouter.js';
 import cookieParser from 'cookie-parser';
 import userRouter from "./Router/userRouter.js"
 import {v2 as cloudinary} from 'cloudinary';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // import {dirname} from "path";
 // import { fileURLToPath } from 'url';
@@ -21,7 +24,6 @@ app.use(express.json());
 app.use("/api/v1/jobs" , jobRouter); 
 app.use("/api/v1/auth" ,authRouter);
 app.use("/api/v1/user", userRouter)
-
 app.use(errorHandlerMiddleware);
 
 

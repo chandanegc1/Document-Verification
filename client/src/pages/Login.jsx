@@ -12,7 +12,8 @@ export const action = async ({ request }) => {
     const res = await customFetch.post("/auth/login", data);
     toast.success(res.data.msg);
     localStorage.setItem("role", res.data.role);
-    return res.data.role === "admin"
+    localStorage.setItem("id", res.data._id);
+    return res.data.role === "hr"
       ? redirect("/dashboard/all-users-docs")
       : redirect("/dashboard/all-docs");
   } catch (error) {
@@ -33,7 +34,7 @@ const Login = () => {
           type="text"
           name="email"
           labelText="Email/Employee ID"
-          defaultValue="chandanegc@gmail.com"
+          defaultValue="tribhuwankanaujiya112@gmail.com"
         />
         <FormRow type="password" name="password" defaultValue="00000000" />
         <button

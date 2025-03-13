@@ -3,7 +3,6 @@ import { comparePassword, hashPassword } from "../utils/PasswordUtils.js";
 
 export const registerEmployee = async (req, res) => {
   const { employeeId, email } = req.body;
-  console.log(req.body);
   try {
     const existingUser = await CD.findOne({ employeeId });
     if (existingUser) {

@@ -22,7 +22,10 @@ const Landing = () => {
             HR Registration
           </Link>
           <Link to='/login' className='btn'>
-            Demo/Login
+            Candidate Login
+          </Link>
+          <Link to='/hr-login' className='btn'>
+            HR Login
           </Link>
         </div>
         <img src={main} alt='job hunt' className='img main-img' />

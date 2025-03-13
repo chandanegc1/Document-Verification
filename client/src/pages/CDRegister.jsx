@@ -5,15 +5,17 @@ import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { SmallLogo } from "../components/Logo";
 
+
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-
+  const id = localStorage.getItem('id');
   try {
-    await customFetch.post("/auth/register", data);
+    await customFetch.post(`/auth/register/${id}`, data);
     toast.success("Registration successful");
     return null;
   } catch (error) {
+    console.log(error.response)
     toast.error(error.response.data.msg);
     return error;
   }
@@ -28,6 +30,7 @@ const CDRegister = () => {
         <SmallLogo />
         <h4>CD Registration</h4>
         <FormRow type="text" name="employeeId" labelText="Employee ID" />
+        <FormRow type="text" name="email" labelText="email ID" />
         <FormRow type="password" name="password" />
         <FormRow type="password" name="repassword" labelText="Re-Enter Password" />
         <button

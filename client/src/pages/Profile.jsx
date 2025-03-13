@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 export const action = async ({ request }) => {
   const formData = await request.formData();
 
+  const id = localStorage.getItem("role");
   const file = formData.get('avatar');
   if (file && file.size > 500000) {
     toast.error('Image size too large');
@@ -16,7 +17,7 @@ export const action = async ({ request }) => {
   }
 
   try {
-    await customFetch.patch('/user/update-user', formData);
+    await customFetch.patch(`/user/${id=='hr'?'update-hr':'update-user'}`, formData);
     toast.success('Profile updated successfully');
   } catch (error) {
     toast.error(error?.response?.data?.msg);

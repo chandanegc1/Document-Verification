@@ -20,6 +20,7 @@ import { action as deleteJobAction } from "./pages/DeleteDocs";
 import { loader as adminLoader } from "./pages/Admin";
 import { action as profileAction } from "./pages/Profile";
 import HRlogin from "./pages/HRlogin";
+import {action as HRloginAction} from "./pages/HRlogin";
 import AllDocuments, {
   loader as allUserDocLoader,
 } from "./pages/TableCandidates";
@@ -45,11 +46,7 @@ const router = createBrowserRouter([
         element: <Register />,
         action: RegisterAction,
       },
-      {
-        path: "hr-login",
-        element: <HRlogin />,
-        action: RegisterAction,
-      },
+      
       {
         path: "dashboard",
         element: <DashboardLayout />,
@@ -102,6 +99,11 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "hr-login",
+        element: <HRlogin />,
+        action: HRloginAction,
+      },
+      {
         path: "login",
         element: <Login />,
         action: LoginAction,
@@ -140,7 +142,7 @@ const App = () => {
 };
 
 const DashboardContent = ({ role }) => {
-  if (role === "admin") {
+  if (role === "hr") {
     return <AllDocuments />;
   } else if (role === "user") {
     return <AddDocs />;

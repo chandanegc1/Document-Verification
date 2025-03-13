@@ -8,8 +8,9 @@ import { toast } from 'react-toastify';
 const DashboardContext = createContext();
 
 export const loader = async()=>{
+  const id = localStorage.getItem("role");
   try {
-    const {data} = await customFetch.get('/user/current-user');
+    const {data} = await customFetch.get(`/user/${id=='hr'?'current-hr':'current-user'}`);
     return data;
   } catch (error) {
     console.log(error);

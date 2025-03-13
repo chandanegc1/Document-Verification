@@ -9,10 +9,10 @@ const NavLinks = ({ isBigSidebar }) => {
       {links.map((link) => {
         const { text, path, icon } = link;
         const { role } = user;
-        if (path === 'admin' && role !== 'admin') return;
-        if (path === '.' && role === 'admin') return;
-        if (path === 'cd-register' && role !== 'admin') return;
-        if (path === 'all-users-docs' && role !== 'admin') return;
+        if (path === 'hr' && role !== 'hr') return;
+        if (path === '.' && role === 'hr') return;
+        if (path === 'cd-register' && role !== 'hr') return;
+        if (path === 'all-users-docs' && role !== 'hr') return;
         if (path === 'all-docs' && role !== 'user') return;
         return (
           <NavLink

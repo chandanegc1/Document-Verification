@@ -11,7 +11,7 @@ day.extend(advancedFormat);
 
 const Job = ({ _id, documentName, number, avatar, status, id }) => {
   const navigate = useNavigate();
-  const isAdmin = localStorage.getItem("role") === "admin";
+  const isAdmin = localStorage.getItem("role") === "hr";
   const actionFun = async (newStatus) => {
     try {
       await customFetch.put(`/jobs/${_id}`, { jobStatus: newStatus });
