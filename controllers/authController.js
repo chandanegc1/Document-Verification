@@ -106,7 +106,7 @@ export const registerCandidate = async (req, res) => {
     employeeID: employeeId,
     password,
     companyName: hr.companyName,
-    loginLink: `${req.protocol}://${req.get("host")}/login`,
+    loginLink: `${req.protocol}://${req.get("host")}`,
     hrName: hr.name,
     hrEmail: hr.email,
     hrContact: `${hr.companyName}, ${hr.location}`,

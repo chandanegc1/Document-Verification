@@ -1,10 +1,5 @@
 import { Router } from "express";
 import { loginHR, sendOtp, registerCandidate, registerHR, loginCandidate, logoutUser, verifyOtp } from "../controllers/authController.js";
-import {
-  validateLoginInput,
-  validateRegisterInput,
-} from "../Middleware/ValidationMiddleware.js";
-
 const router = Router();
 
 router.get("/otp-send/:email", sendOtp);

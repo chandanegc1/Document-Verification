@@ -7,7 +7,7 @@ import {
   DashboardLayout,
   Error,
   Admin,
-  Profile,
+  Profile
 } from "./pages";
 import { action as LoginAction } from "./pages/Login";
 import { loader as DashboardLoader } from "./pages/DashboardLayout";
@@ -27,10 +27,9 @@ import UserDocsContainer, {
   loader as UserDocLoader,
 } from "./components/UserDocsContainer";
 import CDRegister, { action as CDaction } from "./pages/CDRegister";
-import OTPVerification from "./utils/Otp";
 import { useEffect, useState } from "react";
 import OTPverification from "./pages/OTPverification";
-
+console.log(process.env)
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,8 +53,7 @@ const router = createBrowserRouter([
         path: "hr-login",
         element: <HRlogin />,
         action: HRloginAction,
-      },
-      
+      }, 
       {
         path: "otp-verify",
         element: <OTPverification />,
