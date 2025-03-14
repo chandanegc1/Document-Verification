@@ -24,6 +24,10 @@ export const sendOtp = async (req, res) => {
     }
     const otp = generateOTP();
     otpStore[email] = await hashPassword(otp);
+    setTimeout(() => {
+      delete otpStore[email];
+      console.log(`OTP for ${email} deleted after 5 minutes.`);
+    }, 300000);
 
     const emailSubject = `Your TrueDocs OTP – ${otp}`;
     const senderEmail = `"TrueDocs Team" <${process.env.NODEMAILER_USER}>`;
