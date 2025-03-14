@@ -31,10 +31,10 @@ cloudinary.config({
 });
 
 try {
-    mongoose.connect(process.env.NODE_ENV==="deployment"?process.env.DB_URL:process.env.LOCAL_DB_URL);
+    mongoose.connect(process.env.NODE_ENV==="deployment"?process.env.LOCAL_DB_URL:process.env.DB_URL);
     app.listen(process.env.PORT || 5100 , () => {
       console.log('server running.... 5100');
-      console.log(process.env.NODE_ENV==="deployment"?process.env.DB_URL:process.env.LOCAL_DB_URL)
+      console.log(process.env.NODE_ENV==="deployment"?process.env.DB_URL:process.env.LOCAL_DB_URL, process.env.DB_URL)
     });
 } catch (error) {
   console.log(error); 
