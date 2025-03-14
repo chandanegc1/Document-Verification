@@ -38,7 +38,7 @@ const Register = () => {
       toast.error(error.response.data.msg);
     }
   };
-  
+
   const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
@@ -63,7 +63,7 @@ const Register = () => {
           </button>
         </form>
       )}
-      {step === 2 && <OTPverification data={formData} />}
+      {step === 2 && <OTPverification data={formData} setStep={setStep} />}
     </Wrapper>
   );
 };

@@ -1,11 +1,13 @@
 import { FormRow } from "../components";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { SmallLogo } from "../components/Logo";
+import { IoIosArrowBack } from "react-icons/io";
 
-const Register = ({ data }) => {
+const Register = ({ data, setStep }) => {
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
@@ -35,6 +37,9 @@ const Register = ({ data }) => {
   return (
     <Wrapper>
       <form onSubmit={handleSubmit} className="form">
+        <IoIosArrowBack onClick={() => setStep(1)} />
+        <SmallLogo />
+        <h4 style={{ textAlign: "center" }}>OTP Verification</h4>
         <FormRow
           type="otp"
           name="name"
