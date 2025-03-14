@@ -1,6 +1,6 @@
 import Job from "./Document";
 import Wrapper from "../assets/wrappers/JobsContainer";
-import { redirect, useLoaderData, useParams } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 
@@ -10,7 +10,6 @@ export const loader = async ({ params }) => {
     return data;
   } catch (error) {
     toast.error(error.response.data.msg);
-    console.log(error);
     return error;
   }
 };

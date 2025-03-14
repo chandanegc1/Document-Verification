@@ -1,4 +1,4 @@
-import { Link, Form, useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import Wrapper from "../assets/wrappers/Job";
 import day from "dayjs";
 import { FormRowSelect } from "../components";
@@ -15,7 +15,7 @@ const Job = ({ _id, documentName, number, avatar, status, id }) => {
   const actionFun = async (newStatus) => {
     try {
       await customFetch.put(`/jobs/${_id}`, { jobStatus: newStatus });
-      toast.success("Job status updated successfully");
+      toast.success("Document status updated successfully");
       navigate(`../user-docs/${id}`);
     } catch (error) {
       toast.error(error.response?.data?.msg || "Failed to update job status");

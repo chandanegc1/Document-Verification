@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { CDregister, HRregister, CDlogin, logout, HRlogin } from "../controllers/authController.js";
+import { loginHR, sendOtp, registerCandidate, registerHR, loginCandidate, logoutUser, verifyOtp } from "../controllers/authController.js";
 import {
   validateLoginInput,
   validateRegisterInput,
@@ -7,10 +7,12 @@ import {
 
 const router = Router();
 
-router.post("/register/:id", CDregister);
-router.post("/register-hr", HRregister);
-router.post("/login", CDlogin);
-router.post("/login-hr", HRlogin);
-router.get("/logout", logout);
+router.get("/otp-send/:email", sendOtp);
+router.post("/otp-verification", verifyOtp);
+router.post("/register/:id", registerCandidate);
+router.post("/register-hr", registerHR);
+router.post("/login", loginCandidate);
+router.post("/login-hr", loginHR);
+router.get("/logout", logoutUser);
 
 export default router;

@@ -1,6 +1,5 @@
 import 'express-async-errors';
 import express from 'express';
-const app = express();
 import mongoose from "mongoose";
 import jobRouter from './Router/docRouter.js';
 import errorHandlerMiddleware from './Middleware/ErrorHandler.js';
@@ -11,10 +10,7 @@ import {v2 as cloudinary} from 'cloudinary';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-// import {dirname} from "path";
-// import { fileURLToPath } from 'url';
-// import path from 'path';
+const app = express();
 
 //midleware
 app.use(cookieParser());
@@ -26,20 +22,16 @@ app.use("/api/v1/auth" ,authRouter);
 app.use("/api/v1/user", userRouter)
 app.use(errorHandlerMiddleware);
 
-
-// const __dirname = dirname(fileURLToPath(import.meta.url));
-// app.use(express.static(path.resolve(__dirname, './dist')));
 app.use(express.static("dist")); 
 
 cloudinary.config({
-  cloud_name: 'dwv1qch0y',
-  api_key: '655938423713366',
-  api_secret: 'UNoANjsbKZD6Q41qTwqtm32LluE'
+  cloud_name:process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
 });
 
 try {
-    mongoose.connect("mongodb+srv://jobtracker:BBBlMdnCSQMBKbFt@cluster0.kioi2eo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
-    // mongoose.connect("mongodb://127.0.0.1:27017/JonSeeker");
+    mongoose.connect(process.env.NODE_ENV==="deployment"?process.env.DB_URL:process.env.LOCAL_DB_URL);
     app.listen(process.env.PORT || 5100 , () => {
       console.log('server running.... 5100');
     });

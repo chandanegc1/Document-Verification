@@ -4,117 +4,182 @@ import User from "../Models/UserModel.js";
 import Hr from "../Models/HRmodel.js";
 import { UnauthenticatedError } from "../CustomError/customError.js";
 import { createJWT } from "../utils/tokenUtils.js";
-import { generateEmail, sendEmailToEmployee } from "../utils/emailSender.js";
+import {
+  generateEmail,
+  generateOTP,
+  otpMsg,
+  sendEmailToEmployee,
+} from "../utils/emailSender.js";
+import jwt from "jsonwebtoken";
 
-export const CDregister = async (req, res) => {
-  const { email, employeeId, password, repassword } = req.body;
-  const hrId = req.params.id;
-  const existingUserByEmail = await User.findOne({ email: email });
-  const existingUserByEmployeeId = await User.findOne({
-    employeeId: employeeId,
-  });
+// Store OTPs temporarily
+const otpStore = {};
 
-  const hrData = await Hr.findOne({ _id: hrId });
-  const trueDocslink = `${req.protocol}://${req.get("host")}/login`;
+export const sendOtp = async (req, res) => {
+  const { email } = req.params;
+  try {
+    const hr = await Hr.findOne({ email: email });
+    if (hr) {
+      if (hr) throw new UnauthenticatedError("Email edalready register");
+    }
+    const otp = generateOTP();
+    otpStore[email] = await hashPassword(otp);
 
-  if (!hrId && !hrData) throw new UnauthenticatedError("Access Denied");
-  if (existingUserByEmail || existingUserByEmployeeId)
-    throw new UnauthenticatedError(
-      "User already exists with provided email or employee ID"
+    const emailSubject = `Your TrueDocs OTP – ${otp}`;
+    const senderEmail = `"TrueDocs Team" <${process.env.NODEMAILER_USER}>`;
+    const message = otpMsg(otp);
+
+    const emailStatus = await sendEmailToEmployee(
+      senderEmail,
+      email,
+      emailSubject,
+      message
     );
 
-  if (password !== repassword)
-    throw new UnauthenticatedError("passwords do not match");
-
-  const hashedPassword = await hashPassword(password);
-  const user = await User.create({ ...req.body, password: hashedPassword });
-  const msgData = {
-    employeeName: "sir/ma'am",
-    employeeID: employeeId,
-    password: password,
-    companyName: hrData.companyName,
-    loginLink: trueDocslink,
-    hrName: hrData.name,
-    hrEmail: hrData.email,
-    hrContact: hrData.companyName + ", " + hrData.location,
-  };
-  const message = generateEmail(msgData);
-  let emailStatus = false;
-  if (user) {
-    emailStatus = await sendEmailToEmployee(email, message, hrData.companyName);
+    if (emailStatus) {
+      return res
+        .status(StatusCodes.CREATED)
+        .json({ msg: "OTP sent successfully." });
+    }
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Failed to send OTP." });
   }
-  res.status(StatusCodes.CREATED).json({
-    msg: emailStatus
-      ? "Credential send to the candidate email"
-      : "Email not send..",
-  });
 };
 
-export const HRregister = async (req, res) => {
-  const {
-    name,
-    email,
-    employeeId,
-    companyName,
-    location,
-    password,
-    repassword,
-  } = req.body;
+export const verifyOtp = async (req, res) => {
+  try {
+    const { otp, email } = req.body;
+    if (!otpStore[email]) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ msg: "OTP expired or not found." });
+    }
 
-  const existingUserByEmail = await Hr.findOne({ email });
-  const existingUserByEmployeeId = await Hr.findOne({ employeeId });
+    const isOtpValid = await comparePassword(otp, otpStore[email]);
+    if (!isOtpValid) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Invalid OTP." });
+    }
 
-  if (existingUserByEmail || existingUserByEmployeeId) {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    delete otpStore[email];
+
+    return res.json({ msg: "OTP verified successfully.", token });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "OTP verification failed." });
+  }
+};
+
+export const registerCandidate = async (req, res) => {
+  const { email, employeeId, password, repassword } = req.body;
+  const hrId = req.params.id;
+
+  const hr = await Hr.findById(hrId);
+  if (!hr) throw new UnauthenticatedError("Access denied. HR not found.");
+
+  if (await User.findOne({ $or: [{ email }] })) {
     throw new UnauthenticatedError(
-      "User already exists with provided email or employee ID"
+      "User already exists with the provided email or employee ID."
     );
   }
 
   if (password !== repassword) {
-    throw new UnauthenticatedError("passwords do not match");
+    throw new UnauthenticatedError("Passwords do not match.");
   }
 
   const hashedPassword = await hashPassword(password);
-  const user = await Hr.create({ ...req.body, password: hashedPassword });
+  await User.create({ ...req.body, password: hashedPassword });
 
-  res.status(StatusCodes.CREATED).json({
-    msg: "Admin Registration sucessfully",
+  const emailData = {
+    employeeName: "Candidate",
+    employeeID: employeeId,
+    password,
+    companyName: hr.companyName,
+    loginLink: `${req.protocol}://${req.get("host")}/login`,
+    hrName: hr.name,
+    hrEmail: hr.email,
+    hrContact: `${hr.companyName}, ${hr.location}`,
+  };
+
+  const emailSubject = `Your TrueDocs Credentials for Document Submission – ${hr.companyName}`;
+  const senderEmail = `"HR Team - ${hr.companyName}" <${process.env.NODEMAILER_USER}>`;
+  const message = generateEmail(emailData);
+
+  const emailStatus = await sendEmailToEmployee(
+    senderEmail,
+    email,
+    emailSubject,
+    message
+  );
+
+  return res.status(StatusCodes.CREATED).json({
+    msg: emailStatus
+      ? "Credentials sent to the candidate's email."
+      : "Failed to send credentials email.",
   });
 };
 
-export const CDlogin = async (req, res) => {
-  const employeeId = await User.findOne({ employeeId: req.body.email });
-  const userEmail = await User.findOne({ email: req.body.email });
-  const user = employeeId ? employeeId : userEmail;
-  if (!user) throw new UnauthenticatedError("invalid credentials");
-  const isValidUser =
-    user && (await comparePassword(req.body.password, user.password));
-  if (!isValidUser) throw new UnauthenticatedError("invalid credentials");
-  const token = createJWT({ userId: user._id, role: user.role });
-  res.cookie("token", token, { httpOnly: true });
-  res
+export const registerHR = async (req, res) => {
+  const { email, employeeId, password, repassword } = req.body;
+
+  if (await Hr.findOne({ $or: [{ email }, { employeeId }] })) {
+    throw new UnauthenticatedError(
+      "HR already exists with the provided email or employee ID."
+    );
+  }
+
+  if (password !== repassword) {
+    throw new UnauthenticatedError("Passwords do not match.");
+  }
+
+  await Hr.create({ ...req.body, password: await hashPassword(password) });
+
+  return res
     .status(StatusCodes.CREATED)
-    .json({ msg: "user logged in", role: user.role, _id: user._id });
-};
-export const HRlogin = async (req, res) => {
-  const employeeId = await Hr.findOne({ employeeId: req.body.email });
-  const userEmail = await Hr.findOne({ email: req.body.email });
-  const user = employeeId ? employeeId : userEmail;
-  if (!user) throw new UnauthenticatedError("invalid credentials");
-  const isValidUser =
-    user && (await comparePassword(req.body.password, user.password));
-  if (!isValidUser) throw new UnauthenticatedError("invalid credentials");
-  const token = createJWT({ userId: user._id, role: user.role });
-  res.cookie("token", token, { httpOnly: true });
-  res
-    .status(StatusCodes.CREATED)
-    .json({ msg: "user logged in", role: user.role, _id: user._id });
+    .json({ msg: "HR registered successfully." });
 };
 
-export const logout = (_, res) => {
+export const loginCandidate = async (req, res) => {
+  const user = await User.findOne({
+    $or: [{ email: req.body.email }, { employeeId: req.body.email }],
+  });
+  if (!user || !(await comparePassword(req.body.password, user.password))) {
+    throw new UnauthenticatedError("Invalid credentials.");
+  }
+  const token = createJWT({ userId: user._id, role: user.role });
+  res.cookie("token", token, { httpOnly: true });
+  return res
+    .status(StatusCodes.OK)
+    .json({ msg: "Login successful.", role: user.role, _id: user._id });
+};
+
+export const loginHR = async (req, res) => {
+  const user = await Hr.findOne({
+    $or: [{ email: req.body.email }, { employeeId: req.body.email }],
+  });
+  if (!user || !(await comparePassword(req.body.password, user.password))) {
+    throw new UnauthenticatedError("Invalid credentials.");
+  }
+  const token = createJWT({ userId: user._id, role: user.role });
+  res.cookie("token", token, { httpOnly: true });
+  return res
+    .status(StatusCodes.OK)
+    .json({ msg: "Login successful.", role: user.role, _id: user._id });
+};
+
+export const logoutUser = (_, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
   });
-  res.status(StatusCodes.OK).json({ msg: "user logged out!" });
+  return res
+    .status(StatusCodes.OK)
+    .json({ msg: "User logged out successfully." });
 };

@@ -9,7 +9,6 @@ import {
   Admin,
   Profile,
 } from "./pages";
-import { action as RegisterAction } from "./pages/HRRegister";
 import { action as LoginAction } from "./pages/Login";
 import { loader as DashboardLoader } from "./pages/DashboardLayout";
 import AddDocs, { action as AddDocsAction } from "./pages/AddDocs";
@@ -20,7 +19,7 @@ import { action as deleteJobAction } from "./pages/DeleteDocs";
 import { loader as adminLoader } from "./pages/Admin";
 import { action as profileAction } from "./pages/Profile";
 import HRlogin from "./pages/HRlogin";
-import {action as HRloginAction} from "./pages/HRlogin";
+import { action as HRloginAction } from "./pages/HRlogin";
 import AllDocuments, {
   loader as allUserDocLoader,
 } from "./pages/TableCandidates";
@@ -30,6 +29,7 @@ import UserDocsContainer, {
 import CDRegister, { action as CDaction } from "./pages/CDRegister";
 import OTPVerification from "./utils/Otp";
 import { useEffect, useState } from "react";
+import OTPverification from "./pages/OTPverification";
 
 const router = createBrowserRouter([
   {
@@ -44,9 +44,23 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
-        action: RegisterAction,
+      },
+      {
+        path: "login",
+        element: <Login />,
+        action: LoginAction,
+      },
+      {
+        path: "hr-login",
+        element: <HRlogin />,
+        action: HRloginAction,
       },
       
+      {
+        path: "otp-verify",
+        element: <OTPverification />,
+        action: LoginAction,
+      },
       {
         path: "dashboard",
         element: <DashboardLayout />,
@@ -54,7 +68,7 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            action:AddDocsAction,
+            action: AddDocsAction,
             element: <AddDocs />,
           },
           {
@@ -92,24 +106,10 @@ const router = createBrowserRouter([
             path: "delete-job/:id",
             action: deleteJobAction,
           },
-          {
-            path: "opt",
-            element: <OTPVerification />,
-          },
-        ],
-      },
-      {
-        path: "hr-login",
-        element: <HRlogin />,
-        action: HRloginAction,
-      },
-      {
-        path: "login",
-        element: <Login />,
-        action: LoginAction,
-      },
-    ],
-  },
+        ]
+      }
+    ]
+  }
 ]);
 
 const App = () => {
@@ -132,10 +132,7 @@ const App = () => {
   }, []);
 
   return (
-    <RouterProvider
-      router={router}
-      fallbackElement={<div>Loading...</div>}
-    >
+    <RouterProvider router={router} fallbackElement={<div>Loading...</div>}>
       <DashboardContent role={role} />
     </RouterProvider>
   );

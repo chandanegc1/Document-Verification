@@ -4,50 +4,66 @@ import { Form, Link, redirect, useNavigation } from "react-router-dom";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { SmallLogo } from "../components/Logo";
-
-export const action = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  console.log(data);
-  try {
-    await customFetch.post("/auth/register-hr", data);
-    toast.success("Registration successful");
-    return redirect("/login");
-  } catch (error) {
-    toast.error(error.response.data.msg);
-    return error;
-  }
-};
+import OTPverification from "./OTPverification";
+import { useState } from "react";
 
 const Register = () => {
+  const [step, setStep] = useState(1);
   const navigation = useNavigation();
+  const [loader, setLoader] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    employeeId: "",
+    email: "",
+    companyName: "",
+    location: "",
+    password: "",
+    repassword: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    try {
+      const res = await customFetch.get(`/auth/otp-send/${formData.email}`);
+      setStep(2);
+      setLoader(false);
+      toast.success(res.data.msg);
+    } catch (error) {
+      setLoader(false);
+      toast.error(error.response.data.msg);
+    }
+  };
+  
   const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
-      <Form method="post" className="form">
-        <SmallLogo />
-        <h4>Register</h4>
-        <FormRow type="text" name="name" />
-        <FormRow type="text" name="employeeId" labelText="Employee Id" />
-        <FormRow type="email" name="email" />
-        <FormRow type="text" name="companyName" />
-        <FormRow type="text" name="location" />
-        <FormRow type="password" name="password" />
-        <FormRow type="password" name="repassword" />
-        <button
-          className="btn btn-block form-btn"
-          type="submit"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "submitting..." : "Submit"}
-        </button>
-        <p>
-          Already a member?
-          <Link to="/login" className="member-btn">
-            Login
-          </Link>
-        </p>
-      </Form>
+      {step === 1 && (
+        <form onSubmit={handleSubmit} className="form">
+          <SmallLogo />
+          <h4 style={{ textAlign: "center" }}>HR Registration</h4>
+          <FormRow type="text" name="name" onChange={handleChange} />
+          <FormRow
+            type="text"
+            name="employeeId"
+            labelText="Employee Id"
+            onChange={handleChange}
+          />
+          <FormRow type="email" name="email" onChange={handleChange} />
+          <FormRow type="text" name="companyName" onChange={handleChange} />
+          <FormRow type="text" name="location" onChange={handleChange} />
+          <FormRow type="password" name="password" onChange={handleChange} />
+          <FormRow type="password" name="repassword" onChange={handleChange} />
+          <button type="submit" className="btn btn-block form-btn">
+            {loader ? "Submitting.." : "Submit"}
+          </button>
+        </form>
+      )}
+      {step === 2 && <OTPverification data={formData} />}
     </Wrapper>
   );
 };

@@ -49,7 +49,17 @@ export const generateEmail = ({
     `;
 };
 
-export async function sendEmailToEmployee(receiverEmail, emailContent, companyName) {
+export const otpMsg = (otp)=>{
+  return `
+  hi this is your TrueDocs OTP <h1>${otp}</h1>;
+  `
+}
+
+export function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+export async function sendEmailToEmployee(senderEmail ,receiverEmail, emailSubject, emailContent,) {
   try {
     if (!process.env.NODEMAILER_USER || !process.env.NODEMAILER_PASS) {
       throw new Error("Missing Nodemailer credentials. Please set NODEMAILER_USER and NODEMAILER_PASS.");
@@ -64,9 +74,9 @@ export async function sendEmailToEmployee(receiverEmail, emailContent, companyNa
     });
 
     const mailOptions = {
-      from: `"HR Team - ${companyName}" <${process.env.NODEMAILER_USER}>`,
+      from: senderEmail,
       to: receiverEmail,
-      subject: `Your TrueDocs Credentials for Document Submission – ${companyName}`,
+      subject:emailSubject,
       html: emailContent, // Using HTML instead of plain text
     };
 
