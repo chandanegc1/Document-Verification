@@ -22,7 +22,7 @@ app.use("/api/v1/auth" ,authRouter);
 app.use("/api/v1/user", userRouter)
 app.use(errorHandlerMiddleware);
 
-app.use(express.static("dist")); 
+app.use(express.static("./client/dist")); 
 
 cloudinary.config({
   cloud_name:process.env.CLOUD_NAME,
@@ -34,6 +34,7 @@ try {
     mongoose.connect(process.env.NODE_ENV==="deployment"?process.env.DB_URL:process.env.LOCAL_DB_URL);
     app.listen(process.env.PORT || 5100 , () => {
       console.log('server running.... 5100');
+      console.log(process.env.NODE_ENV==="deployment"?process.env.DB_URL:process.env.LOCAL_DB_URL)
     });
 } catch (error) {
   console.log(error); 
