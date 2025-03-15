@@ -23,7 +23,7 @@ app.use("/api/v1/user", userRouter);
 app.use(errorHandlerMiddleware);
 
 app.use(express.static("./client/dist"));
-
+console.log(process.env.API_KEY)
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,

@@ -58,6 +58,7 @@ const Wrapper = styled.article`
   }
   .info {
     h5 {
+      margin-top: 10px;
       margin-bottom: 0.5rem;
     }
     p {

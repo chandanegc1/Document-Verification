@@ -21,11 +21,11 @@ const Landing = () => {
           <Link to='/register' className='btn register-link'>
             HR Registration
           </Link>
-          <Link to='/login' className='btn'>
-            Candidate Login
-          </Link>
           <Link to='/hr-login' className='btn'>
             HR Login
+          </Link>
+          <Link to='/login' className='btn'>
+            Candidate Login
           </Link>
         </div>
         <img src={main} alt='job hunt' className='img main-img' />
@@ -54,7 +54,8 @@ const StyledWrapper = styled.section`
     span {
       color: var(--primary-500);
     }
-    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
   }
   p {
     line-height: 2;
