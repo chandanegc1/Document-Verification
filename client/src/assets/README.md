@@ -2539,19 +2539,19 @@ export const validateTest = withValidationErrors([
 utils/constants.js
 
 ```js
-export const JOB_STATUS = {
+export const DOCUMENT_STATUS = {
   PENDING: 'pending',
   INTERVIEW: 'interview',
   DECLINED: 'declined',
 };
 
-export const JOB_TYPE = {
+export const DOCUMENT_TYPE = {
   FULL_TIME: 'full-time',
   PART_TIME: 'part-time',
   INTERNSHIP: 'internship',
 };
 
-export const JOB_SORT_BY = {
+export const DOCUMENT_SORT_BY = {
   NEWEST_FIRST: 'newest',
   OLDEST_FIRST: 'oldest',
   ASCENDING: 'a-z',
@@ -2563,20 +2563,20 @@ models/JobModel.js
 
 ```js
 import mongoose from 'mongoose';
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../utils/constants';
 const JobSchema = new mongoose.Schema(
   {
     company: String,
     position: String,
     docStatus: {
       type: String,
-      enum: Object.values(JOB_STATUS),
-      default: JOB_STATUS.PENDING,
+      enum: Object.values(DOCUMENT_STATUS),
+      default: DOCUMENT_STATUS.PENDING,
     },
     docType: {
       type: String,
-      enum: Object.values(JOB_TYPE),
-      default: JOB_TYPE.FULL_TIME,
+      enum: Object.values(DOCUMENT_TYPE),
+      default: DOCUMENT_TYPE.FULL_TIME,
     },
     docLocation: {
       type: String,
@@ -2592,16 +2592,16 @@ const JobSchema = new mongoose.Schema(
 validationMiddleware.js
 
 ```js
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../utils/constants.js';
 
 export const validateJobInput = withValidationErrors([
   body('company').notEmpty().withMessage('company is required'),
   body('position').notEmpty().withMessage('position is required'),
   body('docLocation').notEmpty().withMessage('doc location is required'),
   body('docStatus')
-    .isIn(Object.values(JOB_STATUS))
+    .isIn(Object.values(DOCUMENT_STATUS))
     .withMessage('invalid status value'),
-  body('docType').isIn(Object.values(JOB_TYPE)).withMessage('invalid doc type'),
+  body('docType').isIn(Object.values(DOCUMENT_TYPE)).withMessage('invalid doc type'),
 ]);
 ```
 
@@ -2658,7 +2658,7 @@ export const validateIdParam = withValidationErrors([
 ```js
 import { body, param, validationResult } from 'express-validator';
 import { BadRequestError, NotFoundError } from '../errors/customErrors.js';
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
 import Job from '../models/JobModel.js';
 
@@ -3900,7 +3900,7 @@ pages/AddJob.jsx
 import { FormRow } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { useOutletContext } from 'react-router-dom';
-import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../../../utils/constants';
 import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
@@ -3951,9 +3951,9 @@ export default AddJob;
     name='docStatus'
     id='docStatus'
     className='form-select'
-    defaultValue={JOB_TYPE.FULL_TIME}
+    defaultValue={DOCUMENT_TYPE.FULL_TIME}
   >
-    {Object.values(JOB_TYPE).map((itemValue) => {
+    {Object.values(DOCUMENT_TYPE).map((itemValue) => {
       return (
         <option key={itemValue} value={itemValue}>
           {itemValue}
@@ -4001,14 +4001,14 @@ pages/AddJob.jsx
 <FormRowSelect
   labelText='doc status'
   name='docStatus'
-  defaultValue={JOB_STATUS.PENDING}
-  list={Object.values(JOB_STATUS)}
+  defaultValue={DOCUMENT_STATUS.PENDING}
+  list={Object.values(DOCUMENT_STATUS)}
   />
 <FormRowSelect
   name='docType'
   labelText='doc type'
-  defaultValue={JOB_TYPE.FULL_TIME}
-  list={Object.values(JOB_TYPE)}
+  defaultValue={DOCUMENT_TYPE.FULL_TIME}
+  list={Object.values(DOCUMENT_TYPE)}
   />
 ```
 
@@ -4457,7 +4457,7 @@ pages/EditJob.jsx
 import { FormRow, FormRowSelect } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { useLoaderData } from 'react-router-dom';
-import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../../../utils/constants';
 import { Form, useNavigation, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
@@ -4560,13 +4560,13 @@ const EditJob = () => {
             name='docStatus'
             labelText='doc status'
             defaultValue={doc.docStatus}
-            list={Object.values(JOB_STATUS)}
+            list={Object.values(DOCUMENT_STATUS)}
           />
           <FormRowSelect
             name='docType'
             labelText='doc type'
             defaultValue={doc.docType}
-            list={Object.values(JOB_TYPE)}
+            list={Object.values(DOCUMENT_TYPE)}
           />
           <button
             type='submit'
@@ -5625,7 +5625,7 @@ export const getAllJobs = async (req, res) => {
 import { FormRow, FormRowSelect, SubmitBtn } from '.';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { Form, useSubmit, Link } from 'react-router-dom';
-import { JOB_TYPE, JOB_STATUS, JOB_SORT_BY } from '../../../utils/constants';
+import { DOCUMENT_TYPE, DOCUMENT_STATUS, DOCUMENT_SORT_BY } from '../../../utils/constants';
 import { useAllJobsContext } from '../pages/AllJobs';
 
 const SearchContainer = () => {
@@ -5640,19 +5640,19 @@ const SearchContainer = () => {
           <FormRowSelect
             labelText='doc status'
             name='docStatus'
-            list={['all', ...Object.values(JOB_STATUS)]}
+            list={['all', ...Object.values(DOCUMENT_STATUS)]}
             defaultValue='all'
           />
           <FormRowSelect
             labelText='doc type'
             name='docType'
-            list={['all', ...Object.values(JOB_TYPE)]}
+            list={['all', ...Object.values(DOCUMENT_TYPE)]}
             defaultValue='all'
           />
           <FormRowSelect
             name='sort'
             defaultValue='newest'
-            list={[...Object.values(JOB_SORT_BY)]}
+            list={[...Object.values(DOCUMENT_SORT_BY)]}
           />
 
           <Link to='/dashboard/all-docs' className='btn form-btn delete-btn'>
@@ -5745,7 +5745,7 @@ SearchContainer.js
 import { FormRow, FormRowSelect } from '.';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { Form, useSubmit, Link } from 'react-router-dom';
-import { JOB_TYPE, JOB_STATUS, JOB_SORT_BY } from '../../../utils/constants';
+import { DOCUMENT_TYPE, DOCUMENT_STATUS, DOCUMENT_SORT_BY } from '../../../utils/constants';
 import { useAllJobsContext } from '../pages/AllJobs';
 const SearchContainer = () => {
   const { searchValues } = useAllJobsContext();
@@ -5771,7 +5771,7 @@ const SearchContainer = () => {
           <FormRowSelect
             labelText='doc status'
             name='docStatus'
-            list={['all', ...Object.values(JOB_STATUS)]}
+            list={['all', ...Object.values(DOCUMENT_STATUS)]}
             defaultValue={docStatus}
             onChange={(e) => {
               submit(e.currentTarget.form);
@@ -5781,7 +5781,7 @@ const SearchContainer = () => {
             labelText='doc type'
             name='docType'
             defaultValue={docType}
-            list={['all', ...Object.values(JOB_TYPE)]}
+            list={['all', ...Object.values(DOCUMENT_TYPE)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
@@ -5789,7 +5789,7 @@ const SearchContainer = () => {
           <FormRowSelect
             name='sort'
             defaultValue={sort}
-            list={[...Object.values(JOB_SORT_BY)]}
+            list={[...Object.values(DOCUMENT_SORT_BY)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
@@ -6703,7 +6703,7 @@ export const action =
 import { FormRow, FormRowSelect, SubmitBtn } from '../components';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { useLoaderData, useParams } from 'react-router-dom';
-import { JOB_STATUS, JOB_TYPE } from '../../../utils/constants';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../../../utils/constants';
 import { Form, redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import customFetch from '../utils/customFetch';
@@ -6772,13 +6772,13 @@ const EditJob = () => {
             name='docStatus'
             labelText='doc status'
             defaultValue={doc.docStatus}
-            list={Object.values(JOB_STATUS)}
+            list={Object.values(DOCUMENT_STATUS)}
           />
           <FormRowSelect
             name='docType'
             labelText='doc type'
             defaultValue={doc.docType}
-            list={Object.values(JOB_TYPE)}
+            list={Object.values(DOCUMENT_TYPE)}
           />
           <SubmitBtn formBtn />
         </div>

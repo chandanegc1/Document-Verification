@@ -8,45 +8,53 @@ import { SmallLogo } from "../components/Logo";
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
+
   try {
-    const res = await customFetch.post("/auth/login", data);
-    toast.success(res.data.msg);
-    localStorage.setItem("role", res.data.role);
-    localStorage.setItem("id", res.data._id);
-    return res.data.role === "hr"
-      ? redirect("/dashboard/all-users-docs")
-      : redirect("/dashboard/all-docs");
+    const res = await customFetch.post("/auth/candidate/login", data);
+    const { msg, role, _id } = res.data;
+console.log(res.data)
+    toast.success(msg);
+
+    if (!role || !_id) {
+      toast.error("Invalid response from server. Please try again.");
+      return redirect("/login");
+    }
+
+    localStorage.setItem("role", role);
+    localStorage.setItem("id", _id);
+
+    if (role === "hr" || role === "admin") {
+      return redirect("/dashboard/all-users-docs");
+    } else if (role ==='candidate') {
+      return redirect("/dashboard/all-docs");
+    } else {
+      toast.error("Unknown role. Please contact support.");
+      return redirect("/login");
+    }
   } catch (error) {
-    toast.error(error.response.data.msg);
-    return error;
+    toast.error(error.response?.data?.msg || "Login failed. Try again.");
+    return null; // Stay on the login page
   }
 };
 
 const Login = () => {
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting";
+
   return (
     <Wrapper>
       <Form method="post" className="form">
         <SmallLogo />
         <h4>Login</h4>
-        <FormRow
-          type="text"
-          name="email"
-          labelText="Email/Employee ID"
-          defaultValue="tribhuwankanaujiya112@gmail.com"
-        />
-        <FormRow type="password" name="password" defaultValue="00000000" />
+        <FormRow type="text" name="email" labelText="Email/Employee ID" defaultValue='chandanegc@gmail.com' />
+        <FormRow type="password" name="password" defaultValue='00000000' />
         <button
           className="btn btn-block form-btn"
           type="submit"
           disabled={isSubmitting}
         >
-          {isSubmitting ? "submitting..." : "Submit"}
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
-        {/* <button type='button' className='btn btn-block'>
-          explore the app
-        </button> */}
         <p>
           Not a member yet?
           <Link to="/register" className="member-btn">
@@ -57,4 +65,5 @@ const Login = () => {
     </Wrapper>
   );
 };
+
 export default Login;

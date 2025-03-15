@@ -1,7 +1,7 @@
 import { FormRow, FormRowSelect } from '.';
 import Wrapper from '../assets/wrappers/DashboardFormPage';
 import { Form, useSubmit, Link } from 'react-router-dom';
-import { JOB_TYPE, JOB_STATUS, JOB_SORT_BY } from '../../../utils/constants';
+import { DOCUMENT_TYPE, DOCUMENT_STATUS, DOCUMENT_SORT_BY } from '../../../utils/constants';
 import { useAllJobsContext } from '../pages/AllDocs';
 const SearchContainer = () => {
   const { searchValues } = useAllJobsContext();
@@ -37,7 +37,7 @@ const SearchContainer = () => {
           <FormRowSelect
             labelText='job status'
             name='jobStatus'
-            list={['all', ...Object.values(JOB_STATUS)]}
+            list={['all', ...Object.values(DOCUMENT_STATUS)]}
             defaultValue={jobStatus}
             onChange={(e) => {
               submit(e.currentTarget.form);
@@ -47,7 +47,7 @@ const SearchContainer = () => {
             labelText='job type'
             name='jobType'
             defaultValue={jobType}
-            list={['all', ...Object.values(JOB_TYPE)]}
+            list={['all', ...Object.values(DOCUMENT_TYPE)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}
@@ -55,7 +55,7 @@ const SearchContainer = () => {
           <FormRowSelect
             name='sort'
             defaultValue={sort}
-            list={[...Object.values(JOB_SORT_BY)]}
+            list={[...Object.values(DOCUMENT_SORT_BY)]}
             onChange={(e) => {
               submit(e.currentTarget.form);
             }}

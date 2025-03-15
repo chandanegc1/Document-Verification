@@ -29,7 +29,7 @@ const Register = () => {
     e.preventDefault();
     setLoader(true);
     try {
-      const res = await customFetch.get(`/auth/otp-send/${formData.email}`);
+      const res = await customFetch.get(`/auth/send-otp/${formData.email}`);
       setStep(2);
       setLoader(false);
       toast.success(res.data.msg);

@@ -9,7 +9,7 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
-    const res = await customFetch.post("/auth/login-hr", data);
+    const res = await customFetch.post("/auth/hr/login", data);
     toast.success(res.data.msg);
     localStorage.setItem("role", res.data.role);
     localStorage.setItem("id", res.data._id);

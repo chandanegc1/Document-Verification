@@ -12,31 +12,39 @@ export const generateEmail = ({
 }) => {
   return `
         <html>
-        <body style="font-family: Arial, sans-serif; line-height: 1.6;">
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
         
         <p>Dear <strong>${employeeName}</strong>,</p>
 
         <p>Welcome to <strong>${companyName}</strong>! We are delighted to have you join our team.</p>
 
-        <p>As part of the onboarding process, we kindly request you to submit your documents for verification through our <strong>TrueDocs</strong> portal. Below are your login credentials:</p>
+        <p>As part of the onboarding process, please submit your documents for verification through our <strong>TrueDocs</strong> portal. Below are your login credentials:</p>
 
-        <ul>
-          <li><strong>Company Name:</strong> ${companyName}</li>
-          <li><strong>Employee ID:</strong> ${employeeID}</li>
-          <li><strong>Password:</strong> ${password}</li>
-        </ul>
+        <table style="border-collapse: collapse; width: 100%; max-width: 500px; margin: 10px 0;">
+          <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Company Name:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${companyName}</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Employee ID:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${employeeID}</td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;"><strong>Password:</strong></td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${password}</td>
+          </tr>
+        </table>
 
-        <p>Please log in using the following link:</p>
-        <p><a href="${loginLink}" target="_blank">${loginLink}</a></p>
+        <p><strong>Login here:</strong> <a href="${loginLink}" target="_blank">${loginLink}</a></p>
 
         <h3>Next Steps:</h3>
         <ul>
-          <li>✅ Click on the link and enter your Employee ID and Password.</li>
+          <li>✅ Click the login link and enter your Employee ID and Password.</li>
           <li>✅ Upload all required documents for verification.</li>
-          <li>✅ Ensure all files are clear and valid to prevent any delays.</li>
+          <li>✅ Ensure all files are clear and valid to avoid any delays.</li>
         </ul>
 
-        <p>Should you require any assistance, please feel free to reach out to <strong>${hrName}</strong> at <a href="mailto:${hrEmail}">${hrEmail}</a> or contact <strong>${hrContact}</strong>.</p>
+        <p>If you need any assistance, please contact <strong>${hrName}</strong> at <a href="mailto:${hrEmail}">${hrEmail}</a> or call <strong>${hrContact}</strong>.</p>
 
         <p>We look forward to working with you and wish you a successful journey with us.</p>
 
@@ -49,17 +57,31 @@ export const generateEmail = ({
     `;
 };
 
-export const otpMsg = (otp)=>{
+export const otpMsg = (otp) => {
   return `
-  hi this is your TrueDocs OTP <h1>${otp}</h1>;
-  `
-}
+        <html>
+        <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+        
+        <p><strong>Your TrueDocs OTP:</strong></p>
+        <h2 style="background-color: #f4f4f4; padding: 10px; display: inline-block; border-radius: 5px;">${otp}</h2>
+
+        <p>Please use this OTP to complete your verification. This OTP is valid for a limited time.</p>
+
+        <p>If you did not request this, please ignore this email.</p>
+
+        <p><strong>Best Regards,</strong><br>
+        TrueDocs Team</p>
+
+        </body>
+        </html> 
+    `;
+};
 
 export function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-export async function sendEmailToEmployee(senderEmail ,receiverEmail, emailSubject, emailContent,) {
+export async function sendEmailToEmployee(senderEmail, receiverEmail, emailSubject, emailContent) {
   try {
     if (!process.env.NODEMAILER_USER || !process.env.NODEMAILER_PASS) {
       throw new Error("Missing Nodemailer credentials. Please set NODEMAILER_USER and NODEMAILER_PASS.");
@@ -76,8 +98,8 @@ export async function sendEmailToEmployee(senderEmail ,receiverEmail, emailSubje
     const mailOptions = {
       from: senderEmail,
       to: receiverEmail,
-      subject:emailSubject,
-      html: emailContent, // Using HTML instead of plain text
+      subject: emailSubject,
+      html: emailContent, // Using HTML format
     };
 
     const info = await transporter.sendMail(mailOptions);

@@ -1,13 +1,15 @@
-import { UnauthenticatedError, UnauthorizedError } from "../CustomError/customError.js";
+import { UnauthenticatedError, UnauthorizedError } from "../customError/customError.js";
 import { verifyJWT } from "../utils/tokenUtils.js";
 
 export const authenticateUser = async (req, res, next) => {
+ 
     const { token } = req.cookies;
     if (!token) {
       throw new UnauthenticatedError('authentication invalid');
     }
     try {
       const { userId, role } = verifyJWT(token);
+      console.log(userId, role)
       req.user = { userId, role }; //doubt
       next();
     } catch (error) {

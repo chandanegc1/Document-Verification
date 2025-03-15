@@ -14,7 +14,7 @@ export const action = async ({ request }) => {
   }
 
   try {
-    await customFetch.post("/jobs/create-doc", formData);
+    await customFetch.post("/jobs/create-document", formData);
     toast.success("Document uploaded successfully");
   } catch (error) {
     toast.error(error?.response?.data?.msg);

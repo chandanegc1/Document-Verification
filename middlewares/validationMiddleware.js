@@ -1,9 +1,9 @@
 import { body, validationResult ,param } from 'express-validator';
-import { BadRequestError, UnauthorizedError } from '../CustomError/customError.js';
-import { JOB_STATUS, JOB_TYPE } from '../utils/constants.js';
+import { BadRequestError, UnauthorizedError } from '../customError/customError.js';
+import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
-import Doc from '../Models/DocModel.js';
-import User from "../Models/UserModel.js"
+import Doc from '../models/documentModel.js';
+import User from "../models/userModel.js"
 
 
 const withValidationErrors = (validateValues) => {
@@ -41,9 +41,9 @@ export const validateJobInput = withValidationErrors([
   body('position').notEmpty().withMessage('position is required'),
   body('jobLocation').notEmpty().withMessage('job location is required'),
   body('jobStatus')
-    .isIn(Object.values(JOB_STATUS))
+    .isIn(Object.values(DOCUMENT_STATUS))
     .withMessage('invalid status value'),
-  body('jobType').isIn(Object.values(JOB_TYPE)).withMessage('invalid job type'),
+  body('jobType').isIn(Object.values(DOCUMENT_TYPE)).withMessage('invalid job type'),
 ]);
 
 

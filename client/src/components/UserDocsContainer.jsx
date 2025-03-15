@@ -6,7 +6,7 @@ import customFetch from "../utils/customFetch";
 
 export const loader = async ({ params }) => {
   try {
-    const {data} = await customFetch.get(`jobs/user-docs/${params.id}`);
+    const {data} = await customFetch.get(`jobs/user-documents/${params.id}`);
     return data;
   } catch (error) {
     toast.error(error.response.data.msg);

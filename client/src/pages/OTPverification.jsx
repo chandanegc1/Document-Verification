@@ -20,11 +20,11 @@ const Register = ({ data, setStep }) => {
     e.preventDefault();
     setLoader(true);
     try {
-      await customFetch.post(`/auth/otp-verification`, {
+      await customFetch.post(`/auth/verify-otp`, {
         email: data.email,
         otp: otp,
       });
-      const res2 = await customFetch.post("/auth/register-hr", data);
+      const res2 = await customFetch.post("/auth/hr/register", data);
       setLoader(false);
       toast.success(res2.data.msg);
       navigate("/hr-login");

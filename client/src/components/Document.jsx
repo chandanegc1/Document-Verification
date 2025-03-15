@@ -2,7 +2,7 @@ import { Form, useNavigate } from "react-router-dom";
 import Wrapper from "../assets/wrappers/Job";
 import day from "dayjs";
 import { FormRowSelect } from "../components";
-import { JOB_STATUS } from "../../../utils/constants";
+import { DOCUMENT_STATUS } from "../../../utils/constants";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
@@ -67,7 +67,7 @@ const Job = ({ _id, documentName, number, avatar, status, id }) => {
               labelText="Job Status"
               defaultValue={status}
               onChange={(value) => actionFun(value)} // Pass the new status to actionFun
-              list={Object.values(JOB_STATUS)}
+              list={Object.values(DOCUMENT_STATUS)}
             />
           )}
         </footer>

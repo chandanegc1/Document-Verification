@@ -8,8 +8,10 @@ import { Link, useLoaderData } from "react-router-dom";
 export const loader = async ({ request }) => {
   try {
     const { data } = await customFetch.get("/user/all-users");
+    console.log(data)
     return data.user;
   } catch (error) {
+    console.log(error)
     toast.error(error.message);
     return [];
   }
