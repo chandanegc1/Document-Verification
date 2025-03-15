@@ -30,12 +30,9 @@ cloudinary.config({
   api_secret: process.env.API_SECRET,
 });
 
+console.log(process.env.DB_URL)
 try {
-  mongoose.connect(
-    process.env.NODE_ENV === "development"
-      ? process.env.LOCAL_DB_URL
-      : process.env.DB_URL
-  );
+  mongoose.connect(process.env.DB_URL);
   app.listen(process.env.PORT, () => {
     console.log("server running.... 5100");
   });
