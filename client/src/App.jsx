@@ -29,7 +29,6 @@ import UserDocsContainer, {
 import CDRegister, { action as CDaction } from "./pages/CDRegister";
 import { useEffect, useState } from "react";
 import OTPverification from "./pages/OTPverification";
-
 const router = createBrowserRouter([
   {
     path: "/",
