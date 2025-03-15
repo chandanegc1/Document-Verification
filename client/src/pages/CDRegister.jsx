@@ -11,7 +11,7 @@ export const action = async ({ request }) => {
   const data = Object.fromEntries(formData);
   const id = localStorage.getItem('id');
   try {
-    const res = await customFetch.post(`/auth/register/${id}`, data);
+    const res = await customFetch.post(`/auth/candidate/register/${id}`, data);
     toast.success(res.data.msg);
     return null;
   } catch (error) {
