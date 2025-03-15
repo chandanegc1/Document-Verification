@@ -5,7 +5,12 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "cd client && npm run build",
+    "dev": "concurrently \"cd client && npm run dev\" \"cd client && npm run build\" \"nodemon index.js\"",
+    "server": "nodemon index.js",
+    "client": "cd client && npm start",
+    "deploy": "npm run build && npm start"
   },
   "author": "Chandan Kanaujiya",
   "license": "ISC",

@@ -8,8 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 *.env
 node_modules
-dist
-dist-ssr
+
 *.local
 
 # Editor directories and files
@@ -36,8 +35,7 @@ lerna-debug.log*
 package-lock.json
 
 node_modules
-dist
-dist-ssr
+
 *.local
 
 # Editor directories and files

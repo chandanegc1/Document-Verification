@@ -9,8 +9,7 @@ lerna-debug.log*
 *.env
 
 node_modules
-dist
-dist-ssr
+
 *.local
 .env
 # Editor directories and files
@@ -37,8 +36,7 @@ lerna-debug.log*
 package-lock.json
 
 node_modules
-dist
-dist-ssr
+
 *.local
 
 # Editor directories and files
