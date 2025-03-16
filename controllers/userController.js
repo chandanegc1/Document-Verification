@@ -105,48 +105,39 @@ const updateUser = async (Model, userId, data, file) => {
 };
 
 // Update Candidate
+
+///////
 export const updateCandidate = async (req, res) => {
-  try {
-    const newUser = { ...req.body };
-    delete newUser.password;
-console.log(newUser)
-    const updatedUser = await updateUser(
-      User,
-      req.user.userId,
-      newUser,
-      req.file
-    );
-    delete updateUser.password;
-    res.status(StatusCodes.OK).json({ msg: "User updated", user: updatedUser });
-  } catch (error) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Server Error", error });
+  const newUser = { ...req.body };
+  delete newUser.password;
+  if (req.file) {
+    const response = await cloudinary.v2.uploader.upload(req.file.path);
+    await fs.unlink(req.file.path);
+    newUser.avatar = response.secure_url;
+    newUser.avatarPublicId = response.public_id;
   }
-};
 
-// Update HR
+  const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+  if (req.file && updatedUser.avatarPublicId)
+    await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
+  res.status(StatusCodes.OK).json({ msg: "update user" });
+};
 export const updateHR = async (req, res) => {
-  try {
-    const newUser = { ...req.body };
-    delete newUser.password;
-
-    const updatedUser = await updateUser(
-      Hr,
-      req.user.userId,
-      newUser,
-      req.file
-    );
-    delete updateUser.password;
-    res.status(StatusCodes.OK).json({ msg: "HR updated", user: updatedUser });
-  } catch (error) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Server Error", error });
+  const newUser = { ...req.body };
+  delete newUser.password;
+  if (req.file) {
+    const response = await cloudinary.v2.uploader.upload(req.file.path);
+    await fs.unlink(req.file.path);
+    newUser.avatar = response.secure_url;
+    newUser.avatarPublicId = response.public_id;
   }
+
+  const updatedUser = await Hr.findByIdAndUpdate(req.user.userId, newUser);
+  if (req.file && updatedUser.avatarPublicId)
+    await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
+  res.status(StatusCodes.OK).json({ msg: "update user" });
 };
 
-// Update Document Status
 export const updateDocStatus = async (req, res) => {
   try {
     const { id } = req.params;
