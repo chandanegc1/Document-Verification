@@ -1,34 +1,46 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import { DOCUMENT_STATUS } from "../utils/constants.js";
 
 const UserSchema = new mongoose.Schema({
   name: String,
   email: {
-    type:String,
-    required:true,
-    unique:true
+    type: String,
+    required: true,
+    unique: true,
   },
   password: String,
   employeeId: {
     type: String,
   },
-  location: { 
+  location: {
     type: String,
-    default: 'my city',
+    default: "my city",
   },
   companyName: {
     type: String,
   },
   role: {
     type: String,
-    enum: ['candidate','hr', 'admin'],
-    default: 'candidate',
+    enum: ["candidate", "hr", "admin"],
+    default: "candidate",
   },
-  avatar:String,
-  avatarPublicId:String,
+  avatar: String,
+  avatarPublicId: String,
   status: {
-    type: Boolean,
-    default: false,
+    type: String,
+    enum: [
+      DOCUMENT_STATUS.PENDING,
+      DOCUMENT_STATUS.APPROVED,
+      DOCUMENT_STATUS.REJECTED,
+    ],
+    default: DOCUMENT_STATUS.PENDING,
   },
+  documents: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Document",
+    },
+  ],
 });
 
 // remove password (select)
@@ -38,5 +50,4 @@ UserSchema.methods.toJSON = function () {
   return obj;
 };
 
-
-export default mongoose.model('Candidate', UserSchema);
+export default mongoose.model("Candidate", UserSchema);

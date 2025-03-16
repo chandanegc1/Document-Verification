@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import dayjs from "dayjs";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
+import candidateModel from "../models/candidateModel.js";
 
 export const createJob = async (req, res) => {
   req.body.createdBy = req.user.userId;
@@ -32,6 +33,11 @@ export const createDocument = async (req, res) => {
       newUser.avatarPublicId = response.public_id;
     }
     const updatedUser = await Document.create(newUser);
+    const save = await candidateModel.findByIdAndUpdate(
+      req.user.userId,
+      { $push: { documents: updatedUser._id } },
+      { new: true } // Return the updated user
+    );
     console.log(updatedUser);
     res
       .status(StatusCodes.OK)
@@ -118,6 +124,9 @@ export const updateJob = async (req, res) => {
     if (!updatedJob) {
       throw new NotFoundError(`No job with id: ${id}`);
     }
+    const owner = await candidateModel.findById(updatedJob.createdBy);
+    console.log(updatedJob.createdBy);
+
     updatedJob.status = req.body.jobStatus;
     const savedJob = await updatedJob.save();
     res.status(StatusCodes.OK).json({ job: savedJob });

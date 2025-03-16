@@ -51,9 +51,11 @@ const Job = ({ _id, documentName, documentID, avatar, status, id }) => {
           </p>
           <Form method="post" action={`../delete-job/${_id}`}>
             {!isAdmin ? (
-              <button type="submit" className="btn delete-btn">
-                Delete
-              </button>
+              <div>
+                {/* <button type="submit" className="btn delete-btn">
+                  Delete
+                </button> */}
+              </div>
             ) : (
               <a href={avatar} download className="btn delete-btn">
                 Download

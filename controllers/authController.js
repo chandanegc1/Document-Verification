@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { comparePassword, hashPassword } from "../utils/PasswordUtils.js";
+import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
 import Candidate from "../models/candidateModel.js";
 import Hr from "../models/hrModel.js";
 import { UnauthenticatedError } from "../customError/customError.js";
@@ -23,6 +23,7 @@ export const sendOtp = async (req, res) => {
 
     const otp = generateOTP();
     otpStore[email] = await hashPassword(otp);
+    //delete otp 5 min
     setTimeout(() => delete otpStore[email], 300000);
 
     const emailSubject = `Your TrueDocs OTP – ${otp}`;
@@ -30,7 +31,7 @@ export const sendOtp = async (req, res) => {
     const message = otpMsg(otp);
 
     const emailStatus = await sendEmailToEmployee(senderEmail, email, emailSubject, message);
-    if (emailStatus) return res.status(StatusCodes.CREATED).json({ msg: "OTP sent successfully." });
+    if (emailStatus) return res.status(StatusCodes.CREATED).json({ msg: "OTP sent to email successfully." });
   } catch (error) {
     console.error(error);
     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Failed to send OTP." });
@@ -85,7 +86,7 @@ export const registerCandidate = async (req, res) => {
     console.log("email-candi-register",email)
     const emailStatus = await sendEmailToEmployee(senderEmail, email, emailSubject, message);
     return res.status(StatusCodes.CREATED).json({
-      msg: emailStatus ? "Credentials sent successfully." : "Failed to send credentials email.",
+      msg: emailStatus ? "Credentials sent to candidate email successfully." : "Failed to send credentials email.",
     });
   } catch (error) {
     console.error(error);

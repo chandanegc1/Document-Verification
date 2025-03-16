@@ -65,7 +65,7 @@ export const otpMsg = (otp) => {
         <p><strong>Your TrueDocs OTP:</strong></p>
         <h2 style="background-color: #f4f4f4; padding: 10px; display: inline-block; border-radius: 5px;">${otp}</h2>
 
-        <p>Please use this OTP to complete your verification. This OTP is valid for a limited time.</p>
+        <p>Please use this OTP to complete your verification. This OTP is valid for 5 minutes only.</p>
 
         <p>If you did not request this, please ignore this email.</p>
 
