@@ -76,12 +76,12 @@ const columns = [
 const paginationModel = { page: 0, pageSize: 10 };
 
 export default function DataTable() {
-  const data  = useLoaderData();
+  const data = useLoaderData();
   const rows = data.map((item, index) => ({
     id: index + 1,
     ...item,
   }));
-console.log(data)
+
   return (
     <Paper sx={{ height: "80vh", width: "100%", cursor: "pointer" }}>
       <DataGrid
