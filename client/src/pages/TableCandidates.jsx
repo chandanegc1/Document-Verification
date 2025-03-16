@@ -5,13 +5,11 @@ import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 import { Link, useLoaderData } from "react-router-dom";
 
-export const loader = async () => {
+export const loader = async ({ request }) => {
   try {
     const { data } = await customFetch.get("/user/all-users");
-
     return data.users;
   } catch (error) {
-    console.error(error);
     toast.error(error.message);
     return [];
   }
@@ -39,15 +37,18 @@ const columns = [
   {
     field: "name",
     headerName: "Full Name",
+    description: "This column is not sortable.",
     sortable: false,
     width: 200,
     renderCell: (params) => (
-      <div id="table-row-data">
-        {params.row.avatar && <img src={params.row.avatar} alt="avatar" />}
-        <Link to={`/dashboard/user-docs/${params.row._id}`}>
-          <p>{params.row.name || "N/A"}</p>
-        </Link>
-      </div>
+      <>
+        <div id="table-row-data">
+          {params.row.avatar && <img src={params.row.avatar} alt="avatar" />}
+          <Link to={`/dashboard/user-docs/${params.row._id}`}>
+            <p>{params.row.name || "N/A"}</p>
+          </Link>
+        </div>
+      </>
     ),
   },
   {
@@ -66,19 +67,16 @@ const columns = [
     width: 200,
     renderCell: (params) => (
       <Link to={`/dashboard/user-docs/${params.row._id}`}>
-        {params.row.status ? (
-          <p style={{ color: "green" }}>Completed</p>
-        ) : (
-          <p style={{ color: "red" }}>Pending</p>
-        )}
+        {params.row.status?<p style={{color:"green"}}>Completed</p>: <p style={{color:"red"}}>Pending</p>}
       </Link>
     ),
   },
 ];
 
+const paginationModel = { page: 0, pageSize: 10 };
+
 export default function DataTable() {
-  const data = useLoaderData();
-  const rows = data.map((item, index) => ({
+  const rows = useLoaderData().map((item, index) => ({
     id: index + 1,
     ...item,
   }));
@@ -88,8 +86,8 @@ export default function DataTable() {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[10, 25, 50, 100]}
-        paginationModel={{ pageSize: rows.length, page: 0 }}
+        initialState={{ pagination: { paginationModel } }}
+        pageSizeOptions={[5, 10]}
         sx={{ border: 0 }}
       />
     </Paper>

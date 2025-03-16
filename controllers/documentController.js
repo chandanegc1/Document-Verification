@@ -31,6 +31,7 @@ export const createDocument = async (req, res) => {
       newUser.avatar = response.secure_url;
       newUser.avatarPublicId = response.public_id;
     }
+    console.log(newUser)
     const updatedUser = await Document.create(newUser);
     res
       .status(StatusCodes.OK)
