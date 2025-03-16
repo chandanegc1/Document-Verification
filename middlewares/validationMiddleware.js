@@ -2,8 +2,8 @@ import { body, validationResult ,param } from 'express-validator';
 import { BadRequestError, UnauthorizedError } from '../customError/customError.js';
 import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
-import Document from '../modelss/documentModel.js';
-import Candidate from "../modelss/candidateModel.js"
+import Document from '../models/documentModel.js';
+import Candidate from "../models/candidateModel.js"
 
 
 const withValidationErrors = (validateValues) => {

@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import Candidate from "../modelss/candidateModel.js";
-import Document from "../modelss/documentModel.js";
-import Hr from "../modelss/hrModel.js";
+import Candidate from "../models/candidateModel.js";
+import Document from "../models/documentModel.js";
+import Hr from "../models/hrModel.js";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
 
