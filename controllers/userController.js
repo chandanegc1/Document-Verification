@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import Candidate from "../models/candidateModel.js";
-import Job from "../models/documentModel.js";
+import Document from "../models/documentModel.js";
 import Hr from "../models/hrModel.js";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
@@ -40,7 +40,7 @@ export const getAllUsers = async (req, res) => {
   try {
     const [users, jobs] = await Promise.all([
       Candidate.find().lean(),
-      Job.find({}, "createdBy status").lean(),
+      Document.find({}, "createdBy status").lean(),
     ]);
 
     // Create a map of jobs grouped by user ID
@@ -71,7 +71,7 @@ export const getApplicationStats = async (req, res) => {
   try {
     const [users, jobs] = await Promise.all([
       Candidate.countDocuments(),
-      Job.countDocuments(),
+      Document.countDocuments(),
     ]);
 
     res.status(StatusCodes.OK).json({ users, jobs });

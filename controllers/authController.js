@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { comparePassword, hashPassword } from "../utils/PasswordUtils.js";
-import User from "../models/candidateModel.js";
+import Candidate from "../models/candidateModel.js";
 import Hr from "../models/hrModel.js";
 import { UnauthenticatedError } from "../customError/customError.js";
 import { createJWT } from "../utils/tokenUtils.js";
@@ -62,11 +62,11 @@ export const registerCandidate = async (req, res) => {
     const hr = await Hr.findById(hrId);
     if (!hr) throw new UnauthenticatedError("Access denied. HR not found.");
 
-    if (await User.findOne({ email })) throw new UnauthenticatedError("User already exists.");
+    if (await Candidate.findOne({ email })) throw new UnauthenticatedError("User already exists.");
     if (password !== repassword) throw new UnauthenticatedError("Passwords do not match.");
 
     const hashedPassword = await hashPassword(password);
-    await User.create({ ...req.body, password: hashedPassword });
+    await Candidate.create({ ...req.body, password: hashedPassword });
 
     const emailData = {
       employeeName: "Candidate",
@@ -110,7 +110,7 @@ export const registerHR = async (req, res) => {
 
 export const loginCandidate = async (req, res) => {
   try {
-    const user = await User.findOne({ $or: [{ email: req.body.email }, { employeeId: req.body.email }] });
+    const user = await Candidate.findOne({ $or: [{ email: req.body.email }, { employeeId: req.body.email }] });
     if (!user || !(await comparePassword(req.body.password, user.password))) return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Please enter correct credentials." });
 
     const token = createJWT({ userId: user._id, role: user.role });
