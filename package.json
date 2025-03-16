@@ -1,14 +1,13 @@
 {
-  "name": "mern",
+  "name": "TrueDocs",
   "version": "1.0.0",
-  "description": "Job seeker app",
+  "description": "HR Document verification",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
+    "start":  "concurrently \"nodemon index.js\" \"cd client && npm run dev\"",
     "build": "cd client && npm run build",
-    "dev": "concurrently \"cd client && npm run dev\" \"cd client && npm run build\" \"nodemon index.js\"",
-    "server": "nodemon index.js",
+    "dev": "concurrently \"cd client && npm install && npm run dev\" \"cd client && npm run build\" \"npm install && npm install -g nodemon && nodemon index.js\"",
     "client": "cd client && npm start",
     "deploy": "npm run build && npm start"
   },

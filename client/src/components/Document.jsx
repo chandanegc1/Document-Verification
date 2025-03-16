@@ -9,7 +9,7 @@ import customFetch from "../utils/customFetch";
 
 day.extend(advancedFormat);
 
-const Job = ({ _id, documentName, number, avatar, status, id }) => {
+const Job = ({ _id, documentName, documentID, avatar, status, id }) => {
   const navigate = useNavigate();
   const isAdmin = localStorage.getItem("role") === "hr";
   const actionFun = async (newStatus) => {
@@ -28,7 +28,7 @@ const Job = ({ _id, documentName, number, avatar, status, id }) => {
         <div className="main-icon">{documentName.charAt(0)}</div>
         <div className="info">
           <h5>{documentName}</h5>
-          <p>{number}</p>
+          <p>{documentID}</p>
         </div>
       </header>
       <div className="content">

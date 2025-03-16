@@ -35,4 +35,4 @@ UserSchema.methods.toJSON = function () {
 };
 
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('Candidate', UserSchema);

@@ -82,7 +82,7 @@ export const registerCandidate = async (req, res) => {
     const emailSubject = `Your TrueDocs Credentials – ${hr.companyName}`;
     const senderEmail = `"HR Team - ${hr.companyName}" <${process.env.NODEMAILER_USER}>`;
     const message = generateEmail(emailData);
-
+    console.log("email-candi-register",email)
     const emailStatus = await sendEmailToEmployee(senderEmail, email, emailSubject, message);
     return res.status(StatusCodes.CREATED).json({
       msg: emailStatus ? "Credentials sent successfully." : "Failed to send credentials email.",

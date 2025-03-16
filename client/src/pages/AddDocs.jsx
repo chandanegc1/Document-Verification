@@ -44,7 +44,7 @@ const AddDocs = () => {
             />
           </div>
           <FormRow type="text" labelText="Document Name" name="name" />
-          <FormRow type="text" labelText="Document Number/Id" name="email" />
+          <FormRow type="text" labelText="Document Number/Id" name="documentID" />
           <button
             className="btn btn-block form-btn"
             type="submit"

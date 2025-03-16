@@ -12,8 +12,9 @@ const NavLinks = ({ isBigSidebar }) => {
         if (path === 'hr' && role !== 'hr') return;
         if (path === '.' && role === 'hr') return;
         if (path === 'cd-register' && role !== 'hr') return;
+        if (path === 'admin' && role !== 'hr') return;
         if (path === 'all-users-docs' && role !== 'hr') return;
-        if (path === 'all-docs' && role !== 'user') return;
+        if (path === 'all-docs' && role !== 'candidate') return;
         return (
           <NavLink
             to={path}

@@ -1,4 +1,4 @@
-import Doc from "../models/documentModel.js";
+import Document from "../models/documentModel.js";
 import StatusCodes from "http-status-codes";
 import { NotFoundError } from "../customError/customError.js";
 import mongoose from "mongoose";
@@ -8,7 +8,7 @@ import { promises as fs } from "fs";
 
 export const createJob = async (req, res) => {
   req.body.createdBy = req.user.userId;
-  const job = await Doc.create(req.body);
+  const job = await Document.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
 };
 
@@ -16,7 +16,7 @@ export const createDocument = async (req, res) => {
   try {
     const newUser = {
       documentName: req.body.name,
-      number: req.body.email,
+      documentID: req.body.documentID,
       createdBy: req.user.userId,
     };
 
@@ -25,14 +25,13 @@ export const createDocument = async (req, res) => {
       const response = await cloudinary.v2.uploader.upload(req.file.path, {
         folder: userFolder,
       });
-      console.log("Cloudinary URL:", response.secure_url);
+
       await fs.unlink(req.file.path);
       if (!newUser.photos) newUser.photos = [];
       newUser.avatar = response.secure_url;
-      newUser.publicId = response.public_id;
+      newUser.avatarPublicId = response.public_id;
     }
-    const updatedUser = await Doc.create(newUser);
-    console.log(updatedUser);
+    const updatedUser = await Document.create(newUser);
     res
       .status(StatusCodes.OK)
       .json({ msg: "User updated successfully", user: updatedUser });
@@ -77,12 +76,12 @@ export const getAllJobs = async (req, res) => {
   const limit = Number(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const jobs = await Doc.find(queryObject)
+  const jobs = await Document.find(queryObject)
     .sort(sortKey)
     .skip(skip)
     .limit(limit);
 
-  const totalJobs = await Doc.countDocuments(queryObject);
+  const totalJobs = await Document.countDocuments(queryObject);
   const numOfPages = Math.ceil(totalJobs / limit);
 
   res
@@ -92,21 +91,20 @@ export const getAllJobs = async (req, res) => {
 
 export const getJob = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
-  const job = await Doc.findById(id);
+  const job = await Document.findById(id);
   if (!job) throw new NotFoundError(`no job with id : ${id}`);
   res.status(StatusCodes.OK).json({ job });
 };
 
 export const getUserDocuments = async (req, res) => {
   const { id } = req.params;
-  const job = await Doc.find({createdBy:id});
+  const job = await Document.find({ createdBy: id });
   if (!job) throw new NotFoundError(`no job with id : ${id}`);
   res.status(StatusCodes.OK).json({ job });
 };
 export const deleteJob = async (req, res) => {
   const { id } = req.params;
-  const removedJob = await Doc.findByIdAndDelete(id);
+  const removedJob = await Document.findByIdAndDelete(id);
 
   if (!id) throw new NotFoundError(`no job with id : ${id}`);
   res.status(StatusCodes.OK).json({ removedJob });
@@ -115,7 +113,7 @@ export const deleteJob = async (req, res) => {
 export const updateJob = async (req, res) => {
   const { id } = req.params;
   try {
-    const updatedJob = await Doc.findById(id);
+    const updatedJob = await Document.findById(id);
     if (!updatedJob) {
       throw new NotFoundError(`No job with id: ${id}`);
     }
@@ -123,13 +121,14 @@ export const updateJob = async (req, res) => {
     const savedJob = await updatedJob.save();
     res.status(StatusCodes.OK).json({ job: savedJob });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: error.message });
   }
 };
 
-
 export const showStats = async (req, res) => {
-  let stats = await Doc.aggregate([
+  let stats = await Document.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
     { $group: { _id: "$jobStatus", count: { $sum: 1 } } },
   ]);
@@ -146,7 +145,7 @@ export const showStats = async (req, res) => {
     declined: stats.declined || 0,
   };
 
-  let monthlyApplications = await Doc.aggregate([
+  let monthlyApplications = await Document.aggregate([
     { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
     {
       $group: {

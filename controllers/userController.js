@@ -5,24 +5,18 @@ import Hr from "../models/hrModel.js";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
 
-// Utility function to remove passwords from responses
-const removePassword = (user) => {
-  if (!user) return null;
-  const userObj = user.toObject();
-  delete userObj.password;
-  return userObj;
-};
-
 // Get current logged-in user
 export const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).lean();
-    console.log(user)
-    if (!user) return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
+    if (!user)
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
     delete user.password;
     res.status(StatusCodes.OK).json({ user: user });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };
 
@@ -30,11 +24,14 @@ export const getCurrentUser = async (req, res) => {
 export const getCurrentHR = async (req, res) => {
   try {
     const hr = await Hr.findById(req.user.userId);
-    if (!hr) return res.status(StatusCodes.NOT_FOUND).json({ msg: "HR not found" });
+    if (!hr)
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "HR not found" });
     delete hr.password;
     res.status(StatusCodes.OK).json({ user: hr });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };
 
@@ -60,10 +57,12 @@ export const getAllUsers = async (req, res) => {
       const allApproved = userJobs.every((job) => job.status === "approved");
       return { ...user, status: hasEnoughJobs && allApproved };
     });
-
+    delete updatedUsers.password;
     res.status(StatusCodes.OK).json({ users: updatedUsers });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };
 
@@ -77,7 +76,9 @@ export const getApplicationStats = async (req, res) => {
 
     res.status(StatusCodes.OK).json({ users, jobs });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };
 
@@ -91,7 +92,9 @@ const updateUser = async (Model, userId, data, file) => {
     data.avatarPublicId = response.public_id;
   }
 
-  const updatedUser = await Model.findByIdAndUpdate(userId, data, { new: true }).lean();
+  const updatedUser = await Model.findByIdAndUpdate(userId, data, {
+    new: true,
+  }).lean();
 
   // Remove previous avatar from Cloudinary if it exists
   if (file && updatedUser?.avatarPublicId) {
@@ -106,11 +109,19 @@ export const updateCandidate = async (req, res) => {
   try {
     const newUser = { ...req.body };
     delete newUser.password;
-
-    const updatedUser = await updateUser(User, req.user.userId, newUser, req.file);
-    res.status(StatusCodes.OK).json({ msg: "User updated", user: removePassword(updatedUser) });
+console.log(newUser)
+    const updatedUser = await updateUser(
+      User,
+      req.user.userId,
+      newUser,
+      req.file
+    );
+    delete updateUser.password;
+    res.status(StatusCodes.OK).json({ msg: "User updated", user: updatedUser });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };
 
@@ -120,10 +131,18 @@ export const updateHR = async (req, res) => {
     const newUser = { ...req.body };
     delete newUser.password;
 
-    const updatedUser = await updateUser(Hr, req.user.userId, newUser, req.file);
-    res.status(StatusCodes.OK).json({ msg: "HR updated", user: removePassword(updatedUser) });
+    const updatedUser = await updateUser(
+      Hr,
+      req.user.userId,
+      newUser,
+      req.file
+    );
+    delete updateUser.password;
+    res.status(StatusCodes.OK).json({ msg: "HR updated", user: updatedUser });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };
 
@@ -142,9 +161,10 @@ export const updateDocStatus = async (req, res) => {
     if (!updatedJob) {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: "Job not found" });
     }
-
     res.status(StatusCodes.OK).json({ msg: "Job status updated", updatedJob });
   } catch (error) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Server Error", error });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Server Error", error });
   }
 };

@@ -8,12 +8,10 @@ const documentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address"],
+    documentID:{
+      type:String,
+      required:true,
+      trim:true
     },
     avatar: {
       type: String,
@@ -28,7 +26,7 @@ const documentSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Candidate",
       required: true,
       index: true,
     },

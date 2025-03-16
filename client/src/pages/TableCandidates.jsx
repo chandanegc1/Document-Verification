@@ -8,6 +8,7 @@ import { Link, useLoaderData } from "react-router-dom";
 export const loader = async () => {
   try {
     const { data } = await customFetch.get("/user/all-users");
+
     return data.users;
   } catch (error) {
     console.error(error);
@@ -77,8 +78,7 @@ const columns = [
 
 export default function DataTable() {
   const data = useLoaderData();
-  const filterData = data.filter((item) => item.role === "user");
-  const rows = filterData.map((item, index) => ({
+  const rows = data.map((item, index) => ({
     id: index + 1,
     ...item,
   }));
@@ -88,8 +88,8 @@ export default function DataTable() {
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSizeOptions={[10, 25, 50, 100]} 
-        paginationModel={{ pageSize: rows.length, page: 0 }} // Show all rows
+        pageSizeOptions={[10, 25, 50, 100]}
+        paginationModel={{ pageSize: rows.length, page: 0 }}
         sx={{ border: 0 }}
       />
     </Paper>
