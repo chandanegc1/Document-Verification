@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
   employeeId: {
     type: String,
   },
-  location: {
+  location: { 
     type: String,
     default: 'my city',
   },

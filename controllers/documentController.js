@@ -1,4 +1,4 @@
-import Document from "../models/documentModel.js";
+import Document from "../modelss/documentModel.js";
 import StatusCodes from "http-status-codes";
 import { NotFoundError } from "../customError/customError.js";
 import mongoose from "mongoose";
