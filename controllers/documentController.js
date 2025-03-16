@@ -25,14 +25,14 @@ export const createDocument = async (req, res) => {
       const response = await cloudinary.v2.uploader.upload(req.file.path, {
         folder: userFolder,
       });
-
+      
       await fs.unlink(req.file.path);
       if (!newUser.photos) newUser.photos = [];
       newUser.avatar = response.secure_url;
       newUser.avatarPublicId = response.public_id;
     }
-    console.log(newUser)
     const updatedUser = await Document.create(newUser);
+    console.log(updatedUser);
     res
       .status(StatusCodes.OK)
       .json({ msg: "User updated successfully", user: updatedUser });

@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import User from "../models/userModel.js";
+import Candidate from "../models/candidateModel.js";
 import Job from "../models/documentModel.js";
 import Hr from "../models/hrModel.js";
 import cloudinary from "cloudinary";
@@ -8,7 +8,7 @@ import { promises as fs } from "fs";
 // Get current logged-in user
 export const getCurrentUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).lean();
+    const user = await Candidate.findById(req.user.userId).lean();
     if (!user)
       return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
     delete user.password;
@@ -39,7 +39,7 @@ export const getCurrentHR = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const [users, jobs] = await Promise.all([
-      User.find().lean(),
+      Candidate.find().lean(),
       Job.find({}, "createdBy status").lean(),
     ]);
 
@@ -70,7 +70,7 @@ export const getAllUsers = async (req, res) => {
 export const getApplicationStats = async (req, res) => {
   try {
     const [users, jobs] = await Promise.all([
-      User.countDocuments(),
+      Candidate.countDocuments(),
       Job.countDocuments(),
     ]);
 
@@ -117,7 +117,7 @@ export const updateCandidate = async (req, res) => {
     newUser.avatarPublicId = response.public_id;
   }
 
-  const updatedUser = await User.findByIdAndUpdate(req.user.userId, newUser);
+  const updatedUser = await Candidate.findByIdAndUpdate(req.user.userId, newUser);
   if (req.file && updatedUser.avatarPublicId)
     await cloudinary.v2.uploader.destroy(updatedUser.avatarPublicId);
   res.status(StatusCodes.OK).json({ msg: "update user" });
@@ -143,7 +143,7 @@ export const updateDocStatus = async (req, res) => {
     const { id } = req.params;
     const { jobStatus } = req.body;
 
-    const updatedJob = await User.findByIdAndUpdate(
+    const updatedJob = await Candidate.findByIdAndUpdate(
       id,
       { status: jobStatus },
       { new: true }

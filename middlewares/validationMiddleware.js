@@ -2,8 +2,8 @@ import { body, validationResult ,param } from 'express-validator';
 import { BadRequestError, UnauthorizedError } from '../customError/customError.js';
 import { DOCUMENT_STATUS, DOCUMENT_TYPE } from '../utils/constants.js';
 import mongoose from 'mongoose';
-import Doc from '../models/documentModel.js';
-import User from "../models/userModel.js"
+import Document from '../models/documentModel.js';
+import Candidate from "../models/candidateModel.js"
 
 
 const withValidationErrors = (validateValues) => {
@@ -51,7 +51,7 @@ export const validateIdParam = withValidationErrors([
   param('id').custom(async (value, { req }) => {
     const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidMongoId) throw new BadRequestError('invalid MongoDB id');
-    const job = await Doc.findById(value);
+    const job = await Document.findById(value);
     if (!job) throw new NotFoundError(`no job with id ${value}`);
     const isAdmin = req.user.role === 'admin';
     const isOwner = req.user.userId === job.createdBy.toString();
@@ -69,7 +69,7 @@ export const validateRegisterInput = withValidationErrors([
     .isEmail()
     .withMessage('invalid email format')
     .custom(async (email) => {
-      const user = await User.findOne({ email });
+      const user = await Candidate.findOne({ email });
       if (user) {
         throw new BadRequestError('email already exists');
       }
@@ -101,7 +101,7 @@ export const validateUpdateUserInput = withValidationErrors([
     .isEmail()
     .withMessage('invalid email format')
     .custom(async (email, { req }) => {
-      const user = await User.findOne({ email });
+      const user = await Candidate.findOne({ email });
       if (user && user._id.toString() !== req.user.userId) {
         throw new Error('email already exists');
       }
