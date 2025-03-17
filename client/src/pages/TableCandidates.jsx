@@ -61,16 +61,16 @@ const columns = [
       </Link>
     ),
   },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 200,
-    renderCell: (params) => (
-      <Link to={`/dashboard/user-docs/${params.row._id}`}>
-        {params.row.status?<p style={{color:"green"}}>Completed</p>: <p style={{color:"red"}}>Pending</p>}
-      </Link>
-    ),
-  },
+  // {
+  //   field: "status",
+  //   headerName: "Status",
+  //   width: 200,
+  //   renderCell: (params) => (
+  //     <Link to={`/dashboard/user-docs/${params.row._id}`}>
+  //       {params.row.status?<p style={{color:"green"}}>Completed</p>: <p style={{color:"red"}}>Pending</p>}
+  //     </Link>
+  //   ),
+  // },
 ];
 
 const paginationModel = { page: 0, pageSize: 10 };

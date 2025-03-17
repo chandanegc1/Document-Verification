@@ -26,7 +26,7 @@ const documentSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Candidate",
+      ref: "Hr",
       required: true,
       index: true,
     },

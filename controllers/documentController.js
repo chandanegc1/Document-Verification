@@ -38,7 +38,6 @@ export const createDocument = async (req, res) => {
       { $push: { documents: updatedUser._id } },
       { new: true } // Return the updated user
     );
-    console.log(updatedUser);
     res
       .status(StatusCodes.OK)
       .json({ msg: "User updated successfully", user: updatedUser });
@@ -125,7 +124,6 @@ export const updateJob = async (req, res) => {
       throw new NotFoundError(`No job with id: ${id}`);
     }
     const owner = await candidateModel.findById(updatedJob.createdBy);
-    console.log(updatedJob.createdBy);
 
     updatedJob.status = req.body.jobStatus;
     const savedJob = await updatedJob.save();

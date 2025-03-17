@@ -39,7 +39,7 @@ export const getCurrentHR = async (req, res) => {
 export const getAllUsers = async (req, res) => {
   try {
     const [users, jobs] = await Promise.all([
-      Candidate.find().lean(),
+      Candidate.find({registeredBy:req.user.userId}).lean(),
       Document.find({}, "createdBy status").lean(),
     ]);
 

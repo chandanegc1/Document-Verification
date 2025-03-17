@@ -67,7 +67,7 @@ export const registerCandidate = async (req, res) => {
     if (password !== repassword) throw new UnauthenticatedError("Passwords do not match.");
 
     const hashedPassword = await hashPassword(password);
-    await Candidate.create({ ...req.body, password: hashedPassword });
+    await Candidate.create({ ...req.body, password: hashedPassword, registeredBy:req.user.userId });
 
     const emailData = {
       employeeName: "Candidate",

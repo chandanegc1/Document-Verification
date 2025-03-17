@@ -41,6 +41,10 @@ const UserSchema = new mongoose.Schema({
       ref: "Document",
     },
   ],
+  registeredBy:{
+    type:String,
+    required:true
+  }
 });
 
 // remove password (select)
