@@ -9,7 +9,7 @@ import customFetch from "../utils/customFetch";
 
 day.extend(advancedFormat);
 
-const Job = ({ _id, documentName, documentID, avatar, status, id }) => {
+const Document = ({ _id, documentName, documentID, avatar, status, id }) => {
   const navigate = useNavigate();
   const isAdmin = localStorage.getItem("role") === "hr";
   const actionFun = async (newStatus) => {
@@ -78,4 +78,4 @@ const Job = ({ _id, documentName, documentID, avatar, status, id }) => {
   );
 };
 
-export default Job;
+export default Document;

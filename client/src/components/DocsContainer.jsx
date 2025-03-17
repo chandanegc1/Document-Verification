@@ -1,4 +1,4 @@
-import Job from "./Document";
+import Document from "./Document";
 import Wrapper from "../assets/wrappers/JobsContainer";
 import { useAllJobsContext } from "../pages/AllDocs";
 
@@ -18,7 +18,7 @@ const JobsContainer = () => {
     <Wrapper>
       <div className="jobs">
         {jobs.map((job) => {
-          return <Job key={job._id} {...job} />;
+          return <Document key={job._id} {...job} />;
         })}
       </div>
     </Wrapper>
